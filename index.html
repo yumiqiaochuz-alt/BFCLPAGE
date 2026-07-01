@@ -843,25 +843,25 @@
                 </div>
             </div>
 
-            <nav class="nav-menu">
-                <button class="nav-item active" onclick="showSection('dashboard')">
+            <nav class="nav-menu" id="navMenu">
+                <button class="nav-item active" data-section="dashboard">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
                     Dashboard
                 </button>
-                <button class="nav-item" onclick="showSection('students')">
+                <button class="nav-item" data-section="students">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
                     Students
                 </button>
-                <button class="nav-item" onclick="showSection('attendance')">
+                <button class="nav-item" data-section="attendance">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
                     Attendance
                 </button>
-                <button class="nav-item" onclick="showSection('performance')">
+                <button class="nav-item" data-section="performance">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
                     Performance
                 </button>
-                <button class="nav-item" onclick="showSection('reports')">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                <button class="nav-item" data-section="reports">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
                     Reports
                 </button>
             </nav>
@@ -874,7 +874,7 @@
                         <div style="font-size:11px; opacity:0.7;">Logged in</div>
                     </div>
                 </div>
-                <button class="nav-item" style="margin-top:10px;" onclick="toggleLogin()" id="loginBtn">
+                <button class="nav-item" style="margin-top:10px;" id="loginBtnNav">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
                     <span id="loginText">Teacher Login</span>
                 </button>
@@ -889,10 +889,10 @@
                         <span class="version-badge">v1</span>
                     </div>
                     <div class="top-actions">
-                        <button class="btn-icon" title="Refresh" onclick="refreshData()">
+                        <button class="btn-icon" title="Refresh" id="refreshBtn">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
                         </button>
-                        <button class="btn-publish" onclick="publishAll()">
+                        <button class="btn-publish" id="publishBtn">
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
                             Publish
                         </button>
@@ -979,7 +979,7 @@
 
                         <div class="activity-list" id="activityList"></div>
 
-                        <button class="btn-add-activity" onclick="openActivityModal()" id="addActivityBtn" style="display:none;">
+                        <button class="btn-add-activity" id="addActivityBtn" style="display:none;">
                             + Add Activity
                         </button>
                     </div>
@@ -990,7 +990,7 @@
                 <div class="top-bar">
                     <div class="page-title"><h1>Students</h1></div>
                     <div class="top-actions">
-                        <button class="btn-add" onclick="openStudentModal()" id="addStudentBtn" style="display:none;">
+                        <button class="btn-add" id="addStudentBtn" style="display:none;">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
                             Add Student
                         </button>
@@ -1001,7 +1001,7 @@
                     <div class="students-toolbar">
                         <div class="search-box">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--text-muted);"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-                            <input type="text" placeholder="Search students..." id="studentSearch" oninput="filterStudents()">
+                            <input type="text" placeholder="Search students..." id="studentSearch">
                         </div>
                         <span style="color:var(--text-muted); font-size:13px;" id="studentCount">0 students</span>
                     </div>
@@ -1052,8 +1052,8 @@
                 <input type="password" id="loginPassword" placeholder="••••••••">
             </div>
             <div class="modal-actions">
-                <button class="btn-secondary" onclick="closeModal('loginModal')">Cancel</button>
-                <button class="btn-primary" onclick="doLogin()">Login</button>
+                <button class="btn-secondary" id="loginCancelBtn">Cancel</button>
+                <button class="btn-primary" id="loginSubmitBtn">Login</button>
             </div>
         </div>
     </div>
@@ -1065,7 +1065,7 @@
             <input type="hidden" id="studentEditId">
             <div class="form-group">
                 <label>Full Name</label>
-                <input type="text" id="studentName" placeholder="e.g. Adam Lim" oninput="generateInitials()">
+                <input type="text" id="studentName" placeholder="e.g. Adam Lim">
             </div>
             <div class="form-group">
                 <label>Initials (auto-generated)</label>
@@ -1074,19 +1074,19 @@
             <div class="form-group">
                 <label>Avatar Color</label>
                 <div class="color-picker" id="colorPicker">
-                    <div class="color-option selected" style="background:#a5d6a7;" data-color="#a5d6a7" onclick="selectColor(this)"></div>
-                    <div class="color-option" style="background:#4fc3f7;" data-color="#4fc3f7" onclick="selectColor(this)"></div>
-                    <div class="color-option" style="background:#ce93d8;" data-color="#ce93d8" onclick="selectColor(this)"></div>
-                    <div class="color-option" style="background:#ffcc80;" data-color="#ffcc80" onclick="selectColor(this)"></div>
-                    <div class="color-option" style="background:#ef9a9a;" data-color="#ef9a9a" onclick="selectColor(this)"></div>
-                    <div class="color-option" style="background:#80cbc4;" data-color="#80cbc4" onclick="selectColor(this)"></div>
-                    <div class="color-option" style="background:#b39ddb;" data-color="#b39ddb" onclick="selectColor(this)"></div>
-                    <div class="color-option" style="background:#bcaaa4;" data-color="#bcaaa4" onclick="selectColor(this)"></div>
+                    <div class="color-option selected" style="background:#a5d6a7;" data-color="#a5d6a7"></div>
+                    <div class="color-option" style="background:#4fc3f7;" data-color="#4fc3f7"></div>
+                    <div class="color-option" style="background:#ce93d8;" data-color="#ce93d8"></div>
+                    <div class="color-option" style="background:#ffcc80;" data-color="#ffcc80"></div>
+                    <div class="color-option" style="background:#ef9a9a;" data-color="#ef9a9a"></div>
+                    <div class="color-option" style="background:#80cbc4;" data-color="#80cbc4"></div>
+                    <div class="color-option" style="background:#b39ddb;" data-color="#b39ddb"></div>
+                    <div class="color-option" style="background:#bcaaa4;" data-color="#bcaaa4"></div>
                 </div>
             </div>
             <div class="modal-actions">
-                <button class="btn-secondary" onclick="closeModal('studentModal')">Cancel</button>
-                <button class="btn-primary" onclick="saveStudent()">Save Student</button>
+                <button class="btn-secondary" id="studentCancelBtn">Cancel</button>
+                <button class="btn-primary" id="studentSaveBtn">Save Student</button>
             </div>
         </div>
     </div>
@@ -1098,8 +1098,8 @@
             <p style="color:var(--text-muted); font-size:14px; margin-bottom:20px;">This will permanently remove <strong id="deleteStudentName">this student</strong> and all their attendance records.</p>
             <input type="hidden" id="deleteStudentId">
             <div class="modal-actions">
-                <button class="btn-secondary" onclick="closeModal('deleteModal')">Cancel</button>
-                <button class="btn-danger" onclick="confirmDelete()">Delete</button>
+                <button class="btn-secondary" id="deleteCancelBtn">Cancel</button>
+                <button class="btn-danger" id="deleteConfirmBtn">Delete</button>
             </div>
         </div>
     </div>
@@ -1121,8 +1121,8 @@
                 <input type="text" id="activityDetails" placeholder="e.g. Primary 3-4 · Room A">
             </div>
             <div class="modal-actions">
-                <button class="btn-secondary" onclick="closeModal('activityModal')">Cancel</button>
-                <button class="btn-primary" onclick="saveActivity()">Save Activity</button>
+                <button class="btn-secondary" id="activityCancelBtn">Cancel</button>
+                <button class="btn-primary" id="activitySaveBtn">Save Activity</button>
             </div>
         </div>
     </div>
@@ -1131,11 +1131,10 @@
 
     <script>
         // ===================== CONFIG =====================
-        // REPLACE THESE WITH YOUR SUPABASE CREDENTIALS
         const SUPABASE_URL = 'https://wvybfhacwiclahicvsle.supabase.co/rest/v1/';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind2eWJmaGFjd2ljbGFoaWN2c2xlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI5MDUwNjksImV4cCI6MjA5ODQ4MTA2OX0.46ibJ9IH8KAgQwc2PM2n49zSGYd7kWUN78ez6g0_a-o';
 
-        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         // ===================== STATE =====================
         let isLoggedIn = false;
@@ -1160,21 +1159,40 @@
         function openModal(id) { document.getElementById(id).classList.add('active'); }
         function closeModal(id) { document.getElementById(id).classList.remove('active'); }
 
+        // Close modal on overlay click
         document.querySelectorAll('.modal-overlay').forEach(overlay => {
             overlay.addEventListener('click', (e) => {
                 if (e.target === overlay) overlay.classList.remove('active');
             });
         });
 
+        // ===================== NAVIGATION =====================
+        function showSection(section) {
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.nav-item[data-section="' + section + '"]').forEach(el => el.classList.add('active'));
+
+            ['dashboard', 'students', 'attendance', 'performance', 'reports'].forEach(s => {
+                document.getElementById(s + 'Section').style.display = s === section ? 'block' : 'none';
+            });
+
+            if (section === 'students') renderStudentsTable();
+        }
+
+        // Attach nav click handlers
+        document.querySelectorAll('.nav-item[data-section]').forEach(btn => {
+            btn.addEventListener('click', function() {
+                showSection(this.dataset.section);
+            });
+        });
+
         // ===================== DATA LOADING =====================
         async function loadStudents() {
             setLoading(true);
-            const { data, error } = await supabase.from('students').select('*').order('name');
+            const { data, error } = await supabaseClient.from('students').select('*').order('name');
             if (error) { showToast('Error loading students: ' + error.message); setLoading(false); return; }
             students = data || [];
 
-            // Load today's attendance for each student
-            const { data: attData, error: attError } = await supabase
+            const { data: attData, error: attError } = await supabaseClient
                 .from('attendance')
                 .select('*')
                 .eq('date', todayStr);
@@ -1197,7 +1215,7 @@
         }
 
         async function loadActivities() {
-            const { data, error } = await supabase
+            const { data, error } = await supabaseClient
                 .from('activities')
                 .select('*')
                 .eq('date', todayStr)
@@ -1208,7 +1226,7 @@
         }
 
         async function checkSession() {
-            const { data: { session } } = await supabase.auth.getSession();
+            const { data: { session } } = await supabaseClient.auth.getSession();
             if (session) {
                 isLoggedIn = true;
                 currentUser = session.user;
@@ -1235,13 +1253,18 @@
                         <div class="student-avatar" style="background:${s.color};">${s.initials}</div>
                         <span class="student-name">${s.name}</span>
                     </div>
-                    <button class="status-badge status-${(s.status || 'present').toLowerCase()}" 
-                            onclick="cycleStatus('${s.id}')" 
-                            style="${!isLoggedIn ? 'cursor:default;' : ''}">
+                    <button class="status-badge status-${(s.status || 'present').toLowerCase()}" data-student-id="${s.id}">
                         ● ${s.status || 'Present'}
                     </button>
                 </div>
             `).join('');
+
+            // Attach click handlers to status badges
+            list.querySelectorAll('.status-badge').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    cycleStatus(this.dataset.studentId);
+                });
+            });
         }
 
         function renderStudentsTable(filter = '') {
@@ -1251,10 +1274,10 @@
                 s.initials.toLowerCase().includes(filter.toLowerCase())
             );
 
-            document.getElementById('studentCount').textContent = `${filtered.length} student${filtered.length !== 1 ? 's' : ''}`;
+            document.getElementById('studentCount').textContent = filtered.length + ' student' + (filtered.length !== 1 ? 's' : '');
 
             if (filtered.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="4"><div class="empty-state"><p>No students found</p></div></td></tr>`;
+                tbody.innerHTML = '<tr><td colspan="4"><div class="empty-state"><p>No students found</p></div></td></tr>';
                 return;
             }
 
@@ -1270,19 +1293,30 @@
                         </td>
                         <td><span style="font-family:monospace; font-size:13px; color:var(--text-muted);">${s.initials}</span></td>
                         <td>
-                            <span class="status-badge status-${status.toLowerCase()}" onclick="cycleStatus('${s.id}')" style="${!isLoggedIn ? 'cursor:default;' : ''}">
+                            <span class="status-badge status-${status.toLowerCase()}" data-student-id="${s.id}">
                                 ● ${status}
                             </span>
                         </td>
                         <td style="text-align:right;">
                             <div class="action-btns" style="${!isLoggedIn ? 'display:none;' : ''}">
-                                <button class="btn-action btn-edit" onclick="editStudent('${s.id}')" title="Edit">✎</button>
-                                <button class="btn-action btn-delete" onclick="promptDelete('${s.id}')" title="Delete">×</button>
+                                <button class="btn-action btn-edit" data-edit-id="${s.id}" title="Edit">✎</button>
+                                <button class="btn-action btn-delete" data-delete-id="${s.id}" title="Delete">×</button>
                             </div>
                         </td>
                     </tr>
                 `;
             }).join('');
+
+            // Attach handlers
+            tbody.querySelectorAll('.status-badge').forEach(btn => {
+                btn.addEventListener('click', function() { cycleStatus(this.dataset.studentId); });
+            });
+            tbody.querySelectorAll('.btn-edit').forEach(btn => {
+                btn.addEventListener('click', function() { editStudent(this.dataset.editId); });
+            });
+            tbody.querySelectorAll('.btn-delete').forEach(btn => {
+                btn.addEventListener('click', function() { promptDelete(this.dataset.deleteId); });
+            });
         }
 
         function renderActivities() {
@@ -1291,16 +1325,20 @@
                 list.innerHTML = '<p style="color:var(--text-muted); text-align:center; padding:20px;">No activities scheduled today.</p>';
                 return;
             }
-            list.innerHTML = activities.map((a, i) => `
+            list.innerHTML = activities.map(a => `
                 <div class="activity-item">
                     <div class="activity-time">${a.time}</div>
                     <div class="activity-details">
                         <h4>${a.name}</h4>
                         <p>${a.details}</p>
                     </div>
-                    ${isLoggedIn ? `<button class="btn-icon" style="width:28px;height:28px;" onclick="deleteActivity('${a.id}')" title="Delete">×</button>` : ''}
+                    ${isLoggedIn ? `<button class="btn-icon activity-delete-btn" data-activity-id="${a.id}" style="width:28px;height:28px;" title="Delete">×</button>` : ''}
                 </div>
             `).join('');
+
+            list.querySelectorAll('.activity-delete-btn').forEach(btn => {
+                btn.addEventListener('click', function() { deleteActivity(this.dataset.activityId); });
+            });
         }
 
         function updateAttendanceSummary() {
@@ -1331,13 +1369,13 @@
 
             setLoading(true);
             if (student.attendance_id) {
-                const { error } = await supabase
+                const { error } = await supabaseClient
                     .from('attendance')
                     .update({ status: newStatus })
                     .eq('id', student.attendance_id);
                 if (error) { showToast('Error: ' + error.message); setLoading(false); return; }
             } else {
-                const { data, error } = await supabase
+                const { data, error } = await supabaseClient
                     .from('attendance')
                     .insert({ student_id: studentId, date: todayStr, status: newStatus })
                     .select();
@@ -1349,7 +1387,7 @@
             renderStudents();
             renderStudentsTable(document.getElementById('studentSearch').value);
             updateAttendanceSummary();
-            showToast(`${student.name} marked as ${newStatus}`);
+            showToast(student.name + ' marked as ' + newStatus);
             setLoading(false);
         }
 
@@ -1409,26 +1447,25 @@
 
             setLoading(true);
             if (editId) {
-                const { error } = await supabase
+                const { error } = await supabaseClient
                     .from('students')
                     .update({ name, initials, color: selectedColor })
                     .eq('id', editId);
                 if (error) { showToast('Error: ' + error.message); setLoading(false); return; }
-                showToast(`Updated ${name}`);
+                showToast('Updated ' + name);
             } else {
-                const { data, error } = await supabase
+                const { data, error } = await supabaseClient
                     .from('students')
                     .insert({ name, initials, color: selectedColor })
                     .select();
                 if (error) { showToast('Error: ' + error.message); setLoading(false); return; }
 
-                // Create today's attendance record
-                await supabase.from('attendance').insert({
+                await supabaseClient.from('attendance').insert({
                     student_id: data[0].id,
                     date: todayStr,
                     status: 'Present'
                 });
-                showToast(`Added ${name}`);
+                showToast('Added ' + name);
             }
 
             closeModal('studentModal');
@@ -1449,8 +1486,8 @@
             const id = document.getElementById('deleteStudentId').value;
             setLoading(true);
 
-            await supabase.from('attendance').delete().eq('student_id', id);
-            const { error } = await supabase.from('students').delete().eq('id', id);
+            await supabaseClient.from('attendance').delete().eq('student_id', id);
+            const { error } = await supabaseClient.from('students').delete().eq('id', id);
 
             if (error) { showToast('Error: ' + error.message); setLoading(false); return; }
 
@@ -1478,7 +1515,7 @@
             if (!name) { showToast('Please enter an activity name'); return; }
 
             setLoading(true);
-            const { error } = await supabase.from('activities').insert({
+            const { error } = await supabaseClient.from('activities').insert({
                 time, name, details, date: todayStr
             });
 
@@ -1495,23 +1532,11 @@
         async function deleteActivity(id) {
             if (!confirm('Delete this activity?')) return;
             setLoading(true);
-            const { error } = await supabase.from('activities').delete().eq('id', id);
+            const { error } = await supabaseClient.from('activities').delete().eq('id', id);
             if (error) { showToast('Error: ' + error.message); setLoading(false); return; }
             showToast('Activity deleted');
             await loadActivities();
             setLoading(false);
-        }
-
-        // ===================== NAVIGATION =====================
-        function showSection(section) {
-            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-            event.currentTarget.classList.add('active');
-
-            ['dashboard', 'students', 'attendance', 'performance', 'reports'].forEach(s => {
-                document.getElementById(s + 'Section').style.display = s === section ? 'block' : 'none';
-            });
-
-            if (section === 'students') renderStudentsTable();
         }
 
         // ===================== LOGIN =====================
@@ -1527,7 +1552,7 @@
             if (!email || !password) { showToast('Enter email and password'); return; }
 
             setLoading(true);
-            const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+            const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
             setLoading(false);
 
             if (error) { showToast(error.message); return; }
@@ -1548,7 +1573,7 @@
         }
 
         async function doLogout() {
-            await supabase.auth.signOut();
+            await supabaseClient.auth.signOut();
             isLoggedIn = false;
             currentUser = null;
             document.getElementById('teacherInfo').style.display = 'none';
@@ -1571,6 +1596,28 @@
             showToast('All changes saved to database!');
         }
 
+        // ===================== EVENT LISTENERS =====================
+        document.getElementById('loginBtnNav').addEventListener('click', toggleLogin);
+        document.getElementById('refreshBtn').addEventListener('click', refreshData);
+        document.getElementById('publishBtn').addEventListener('click', publishAll);
+        document.getElementById('addStudentBtn').addEventListener('click', openStudentModal);
+        document.getElementById('addActivityBtn').addEventListener('click', openActivityModal);
+        document.getElementById('loginCancelBtn').addEventListener('click', function() { closeModal('loginModal'); });
+        document.getElementById('loginSubmitBtn').addEventListener('click', doLogin);
+        document.getElementById('studentCancelBtn').addEventListener('click', function() { closeModal('studentModal'); });
+        document.getElementById('studentSaveBtn').addEventListener('click', saveStudent);
+        document.getElementById('deleteCancelBtn').addEventListener('click', function() { closeModal('deleteModal'); });
+        document.getElementById('deleteConfirmBtn').addEventListener('click', confirmDelete);
+        document.getElementById('activityCancelBtn').addEventListener('click', function() { closeModal('activityModal'); });
+        document.getElementById('activitySaveBtn').addEventListener('click', saveActivity);
+        document.getElementById('studentSearch').addEventListener('input', filterStudents);
+        document.getElementById('studentName').addEventListener('input', generateInitials);
+
+        // Color picker listeners
+        document.querySelectorAll('.color-option').forEach(el => {
+            el.addEventListener('click', function() { selectColor(this); });
+        });
+
         // ===================== INIT =====================
         document.getElementById('attendanceDate').textContent = new Date().toLocaleDateString('en-GB', {
             day: 'numeric', month: 'long', year: 'numeric'
@@ -1585,4 +1632,4 @@
         init();
     </script>
 </body>
-                                                                                                                                     </html>
+</html>
