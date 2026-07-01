@@ -22,6 +22,8 @@
             --accent-yellow: #f0ad4e;
             --accent-red: #d9534f;
             --accent-pink: #e8a0bf;
+            --accent-lavender: #b8a9c9;
+            --accent-peach: #f5d0c5;
             --border-radius: 16px;
             --shadow: 0 2px 12px rgba(0,0,0,0.06);
         }
@@ -211,22 +213,6 @@
         }
 
         .btn-icon:hover { background: #f0ebe3; }
-
-        .btn-publish {
-            background: var(--text-dark);
-            color: white;
-            border: none;
-            padding: 8px 18px;
-            border-radius: 10px;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .btn-publish:hover { background: #0d2a30; }
 
         .welcome-banner {
             background: linear-gradient(135deg, #a8d8e8 0%, #c8e6d0 50%, #f0e6c8 100%);
@@ -649,6 +635,10 @@
             animation: modalSlide 0.3s ease;
         }
 
+        .modal-wide {
+            max-width: 640px;
+        }
+
         @keyframes modalSlide {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -672,7 +662,7 @@
             margin-bottom: 6px;
         }
 
-        .form-group input, .form-group select {
+        .form-group input, .form-group select, .form-group textarea {
             width: 100%;
             padding: 10px 14px;
             border: 1px solid #e0dbd2;
@@ -681,10 +671,15 @@
             font-family: inherit;
             outline: none;
             transition: border-color 0.2s;
+            resize: vertical;
         }
 
-        .form-group input:focus, .form-group select:focus {
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
             border-color: var(--accent-blue);
+        }
+
+        .form-group textarea {
+            min-height: 80px;
         }
 
         .color-picker {
@@ -770,9 +765,265 @@
             margin-bottom: 24px;
         }
 
+        .perf-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+
+        .perf-entry-card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: var(--shadow);
+            margin-bottom: 12px;
+            border-left: 4px solid var(--accent-blue);
+        }
+
+        .perf-entry-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .perf-entry-student {
+            font-weight: 600;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .perf-entry-meta {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .perf-category {
+            font-size: 11px;
+            font-weight: 600;
+            padding: 3px 10px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .cat-academic { background: #e3f2fd; color: #1565c0; }
+        .cat-social { background: #f3e5f5; color: #7b1fa2; }
+        .cat-behavior { background: #fff3e0; color: #e65100; }
+        .cat-creativity { background: #e8f5e9; color: #2e7d32; }
+        .cat-physical { background: #fce4ec; color: #c2185b; }
+
+        .perf-rating {
+            display: flex;
+            gap: 2px;
+        }
+
+        .star {
+            width: 14px;
+            height: 14px;
+            color: #ffc107;
+        }
+
+        .star.empty { color: #e0e0e0; }
+
+        .perf-description {
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.5;
+            margin-top: 6px;
+        }
+
+        .perf-date {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 8px;
+        }
+
+        .report-card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: var(--shadow);
+            margin-bottom: 12px;
+            border-top: 3px solid var(--accent-lavender);
+        }
+
+        .report-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .report-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .report-badge {
+            font-size: 10px;
+            font-weight: 600;
+            padding: 3px 10px;
+            border-radius: 20px;
+            background: var(--accent-peach);
+            color: var(--text-dark);
+        }
+
+        .report-content {
+            font-size: 13px;
+            line-height: 1.6;
+            color: var(--text-dark);
+            white-space: pre-wrap;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .report-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #f0ebe3;
+        }
+
+        .btn-generate {
+            background: var(--sidebar-bg);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-generate:hover { background: var(--sidebar-hover); }
+
+        .teacher-card {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 16px;
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            margin-bottom: 10px;
+        }
+
+        .teacher-card-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--accent-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .teacher-card-info h4 {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .teacher-card-info p {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        /* Attendance Section Styles */
+        .attendance-month-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+        }
+
+        .attendance-month-card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .attendance-month-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #f0ebe3;
+        }
+
+        .attendance-month-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .attendance-month-total {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .attendance-student-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #f8f6f2;
+        }
+
+        .attendance-student-row:last-child {
+            border-bottom: none;
+        }
+
+        .attendance-student-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .attendance-count {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+        }
+
+        .count-present { color: #388e3c; font-weight: 600; }
+        .count-late { color: #ef6c00; font-weight: 600; }
+        .count-absent { color: #c62828; font-weight: 600; }
+
+        .month-selector {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+
+        .month-selector select {
+            padding: 8px 14px;
+            border: 1px solid #e0dbd2;
+            border-radius: 10px;
+            font-size: 14px;
+            font-family: inherit;
+            background: white;
+        }
+
         @media (max-width: 1100px) {
             .stats-grid { grid-template-columns: repeat(2, 1fr); }
             .dashboard-grid { grid-template-columns: 1fr; }
+            .perf-grid { grid-template-columns: 1fr; }
         }
 
         @media (max-width: 768px) {
@@ -836,9 +1087,9 @@
     <div class="app-container">
         <aside class="sidebar" id="sidebar">
             <div class="logo-section">
-                <img src="https://placehold.co/48x48/1a5f6e/ffffff?text=BFCL" alt="BFCL Logo" id="logoImg">
+                <img src="bfcl_logo.jpg" alt="BFCL Logo" id="logoImg">
                 <div class="logo-text">
-                    <h2>BFCL</h2>
+                    <h2 style="font-size:14px;">Batu Ferringhi Community Library</h2>
                     <span>Education Hub</span>
                 </div>
             </div>
@@ -851,6 +1102,10 @@
                 <button class="nav-item" data-section="students">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
                     Students
+                </button>
+                <button class="nav-item" data-section="teachers">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    Teachers
                 </button>
                 <button class="nav-item" data-section="attendance">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
@@ -885,18 +1140,10 @@
             <div id="dashboardSection">
                 <div class="top-bar">
                     <div class="page-title">
-                        <h1>School Dashboard</h1>
-                        <span class="version-badge">v1</span>
+                        <h1>Community Dashboard</h1>
+                        <span class="version-badge">v2</span>
                     </div>
-                    <div class="top-actions">
-                        <button class="btn-icon" title="Refresh" id="refreshBtn">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
-                        </button>
-                        <button class="btn-publish" id="publishBtn">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
-                            Publish
-                        </button>
-                    </div>
+                    <div class="top-actions"></div>
                 </div>
 
                 <div class="welcome-banner">
@@ -910,7 +1157,7 @@
                             <div class="stat-icon blue">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
                             </div>
-                            <span class="stat-trend trend-up">▲ 6%</span>
+                            <span class="stat-trend trend-up">+ Active</span>
                         </div>
                         <div class="stat-value" id="totalStudents">0</div>
                         <div class="stat-label">Total Students</div>
@@ -921,7 +1168,7 @@
                             <div class="stat-icon green">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
                             </div>
-                            <span class="stat-trend trend-steady">● steady</span>
+                            <span class="stat-trend trend-steady">steady</span>
                         </div>
                         <div class="stat-value" id="attendanceRate">0%</div>
                         <div class="stat-label">Today's Attendance</div>
@@ -932,10 +1179,10 @@
                             <div class="stat-icon yellow">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
                             </div>
-                            <span class="stat-trend trend-steady">● steady</span>
+                            <span class="stat-trend trend-steady">tracked</span>
                         </div>
-                        <div class="stat-value" id="avgScore">82%</div>
-                        <div class="stat-label">Average Score</div>
+                        <div class="stat-value" id="perfCount">0</div>
+                        <div class="stat-label">Performance Notes</div>
                     </div>
 
                     <div class="stat-card">
@@ -943,10 +1190,10 @@
                             <div class="stat-icon pink">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
                             </div>
-                            <span class="stat-trend trend-up">▲ 2</span>
+                            <span class="stat-trend trend-up">+ AI</span>
                         </div>
-                        <div class="stat-value" id="monthlyReports">14</div>
-                        <div class="stat-label">Monthly Reports</div>
+                        <div class="stat-value" id="reportCount">0</div>
+                        <div class="stat-label">Generated Reports</div>
                     </div>
                 </div>
 
@@ -957,13 +1204,13 @@
                                 <div class="card-title">Attendance</div>
                                 <div class="card-subtitle" id="attendanceDate">1 July 2026</div>
                             </div>
-                            <button class="btn-view-all">View All</button>
+                            <button class="btn-view-all" id="viewAllAttendanceBtn">View All</button>
                         </div>
 
                         <div class="attendance-summary" id="attendanceSummary">
-                            <span class="attendance-badge badge-present">● 0 Present</span>
-                            <span class="attendance-badge badge-late">● 0 Late</span>
-                            <span class="attendance-badge badge-absent">● 0 Absent</span>
+                            <span class="attendance-badge badge-present">0 Present</span>
+                            <span class="attendance-badge badge-late">0 Late</span>
+                            <span class="attendance-badge badge-absent">0 Absent</span>
                         </div>
 
                         <div class="student-list" id="studentList"></div>
@@ -1020,19 +1267,109 @@
                 </div>
             </div>
 
+            <div id="teachersSection" style="display:none;">
+                <div class="top-bar">
+                    <div class="page-title"><h1>Teachers</h1></div>
+                    <div class="top-actions">
+                        <button class="btn-add" id="addTeacherBtn" style="display:none;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                            Add Teacher
+                        </button>
+                    </div>
+                </div>
+                <div class="card" id="teachersListContainer">
+                    <p style="color:var(--text-muted);">No teachers added yet.</p>
+                </div>
+            </div>
+
             <div id="attendanceSection" style="display:none;">
-                <div class="top-bar"><div class="page-title"><h1>Attendance</h1></div></div>
-                <div class="card"><p style="color:var(--text-muted);">Full attendance history coming soon.</p></div>
+                <div class="top-bar">
+                    <div class="page-title"><h1>Attendance</h1></div>
+                </div>
+                <div class="month-selector">
+                    <select id="attendanceMonthSelect">
+                        <option value="0">January</option>
+                        <option value="1">February</option>
+                        <option value="2">March</option>
+                        <option value="3">April</option>
+                        <option value="4">May</option>
+                        <option value="5">June</option>
+                        <option value="6" selected>July</option>
+                        <option value="7">August</option>
+                        <option value="8">September</option>
+                        <option value="9">October</option>
+                        <option value="10">November</option>
+                        <option value="11">December</option>
+                    </select>
+                    <select id="attendanceYearSelect">
+                        <option value="2025">2025</option>
+                        <option value="2026" selected>2026</option>
+                        <option value="2027">2027</option>
+                    </select>
+                    <button class="btn-add" id="loadAttendanceMonthBtn">Load Summary</button>
+                </div>
+                <div id="attendanceMonthContainer">
+                    <div class="card">
+                        <div class="empty-state">
+                            <p>Select a month and year to view attendance summary.</p>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div id="performanceSection" style="display:none;">
-                <div class="top-bar"><div class="page-title"><h1>Performance</h1></div></div>
-                <div class="card"><p style="color:var(--text-muted);">Performance analytics coming soon.</p></div>
+                <div class="top-bar">
+                    <div class="page-title"><h1>Performance</h1></div>
+                    <div class="top-actions">
+                        <button class="btn-add" id="addPerfBtn" style="display:none;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                            Add Note
+                        </button>
+                    </div>
+                </div>
+
+                <div class="perf-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Quick Stats</div>
+                        </div>
+                        <div id="perfStats">
+                            <p style="color:var(--text-muted); font-size:13px;">Add performance notes to see insights.</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Recent Notes</div>
+                        </div>
+                        <div id="perfList">
+                            <p style="color:var(--text-muted); text-align:center; padding:20px;">No performance notes yet.</p>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div id="reportsSection" style="display:none;">
-                <div class="top-bar"><div class="page-title"><h1>Reports</h1></div></div>
-                <div class="card"><p style="color:var(--text-muted);">Reports archive coming soon.</p></div>
+                <div class="top-bar">
+                    <div class="page-title"><h1>Reports</h1></div>
+                    <div class="top-actions" id="reportActions" style="display:none;">
+                        <button class="btn-generate" id="genMonthlyBtn">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                            Monthly Report
+                        </button>
+                        <button class="btn-generate" id="genYearlyBtn">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                            Yearly Report
+                        </button>
+                    </div>
+                </div>
+                <div id="reportsList">
+                    <div class="card">
+                        <div class="empty-state">
+                            <p>Generate your first report using the buttons above.</p>
+                            <p style="font-size:12px; margin-top:8px;">Reports are automatically created from performance notes.</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </main>
     </div>
@@ -1040,7 +1377,7 @@
     <!-- LOGIN MODAL -->
     <div class="modal-overlay" id="loginModal">
         <div class="modal">
-            <img src="https://placehold.co/80x80/1a5f6e/ffffff?text=BFCL" alt="BFCL Logo" class="login-logo" id="loginLogo">
+            <img src="bfcl_logo.jpg" alt="BFCL Logo" class="login-logo" id="loginLogo">
             <h3 class="login-title">Teacher Login</h3>
             <p class="login-subtitle">Batu Ferringhi Community Library</p>
             <div class="form-group">
@@ -1049,7 +1386,7 @@
             </div>
             <div class="form-group">
                 <label>Password</label>
-                <input type="password" id="loginPassword" placeholder="••••••••">
+                <input type="password" id="loginPassword" placeholder="password">
             </div>
             <div class="modal-actions">
                 <button class="btn-secondary" id="loginCancelBtn">Cancel</button>
@@ -1091,6 +1428,73 @@
         </div>
     </div>
 
+    <!-- TEACHER MODAL -->
+    <div class="modal-overlay" id="teacherModal">
+        <div class="modal">
+            <h3 id="teacherModalTitle">Add Teacher</h3>
+            <input type="hidden" id="teacherEditId">
+            <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" id="teacherNameInput" placeholder="e.g. Sarah Tan">
+            </div>
+            <div class="form-group">
+                <label>Subject / Role</label>
+                <input type="text" id="teacherRole" placeholder="e.g. Primary English">
+            </div>
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" id="teacherEmailInput" placeholder="teacher@bfcl.edu">
+            </div>
+            <div class="modal-actions">
+                <button class="btn-secondary" id="teacherCancelBtn">Cancel</button>
+                <button class="btn-primary" id="teacherSaveBtn">Save Teacher</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PERFORMANCE MODAL -->
+    <div class="modal-overlay" id="perfModal">
+        <div class="modal modal-wide">
+            <h3>Add Performance Note</h3>
+            <div class="form-group">
+                <label>Student</label>
+                <select id="perfStudentSelect"></select>
+            </div>
+            <div class="form-group">
+                <label>Date</label>
+                <input type="date" id="perfDate">
+            </div>
+            <div class="form-group">
+                <label>Category</label>
+                <select id="perfCategory">
+                    <option value="Academic">Academic</option>
+                    <option value="Social">Social</option>
+                    <option value="Behavior">Behavior</option>
+                    <option value="Creativity">Creativity</option>
+                    <option value="Physical">Physical</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Rating (1-5)</label>
+                <select id="perfRating">
+                    <option value="5">5 - Excellent</option>
+                    <option value="4" selected>4 - Good</option>
+                    <option value="3">3 - Average</option>
+                    <option value="2">2 - Needs Improvement</option>
+                    <option value="1">1 - Concern</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Description / Observation</label>
+                <textarea id="perfDescription" placeholder="Describe the student's performance, behavior, or progress..."></textarea>
+            </div>
+            <div class="modal-actions">
+                <button class="btn-secondary" id="perfCancelBtn">Cancel</button>
+                <button class="btn-primary" id="perfSaveBtn">Save Note</button>
+            </div>
+        </div>
+    </div>
+
     <!-- DELETE MODAL -->
     <div class="modal-overlay" id="deleteModal">
         <div class="modal">
@@ -1118,7 +1522,7 @@
             </div>
             <div class="form-group">
                 <label>Details</label>
-                <input type="text" id="activityDetails" placeholder="e.g. Primary 3-4 · Room A">
+                <input type="text" id="activityDetails" placeholder="e.g. Primary 3-4 Room A">
             </div>
             <div class="modal-actions">
                 <button class="btn-secondary" id="activityCancelBtn">Cancel</button>
@@ -1140,9 +1544,31 @@
         let isLoggedIn = false;
         let currentUser = null;
         let students = [];
+        let teachers = [];
         let activities = [];
+        let performanceData = [];
+        let reports = [];
+        let allAttendance = [];
         let selectedColor = '#a5d6a7';
         let todayStr = new Date().toISOString().split('T')[0];
+
+        // ===================== LOCAL STORAGE =====================
+        function loadLocalData() {
+            try {
+                const perf = localStorage.getItem('bfcl_performance');
+                if (perf) performanceData = JSON.parse(perf);
+                const rep = localStorage.getItem('bfcl_reports');
+                if (rep) reports = JSON.parse(rep);
+                const teach = localStorage.getItem('bfcl_teachers');
+                if (teach) teachers = JSON.parse(teach);
+            } catch (e) { console.error('Local load error', e); }
+        }
+
+        function saveLocalData() {
+            localStorage.setItem('bfcl_performance', JSON.stringify(performanceData));
+            localStorage.setItem('bfcl_reports', JSON.stringify(reports));
+            localStorage.setItem('bfcl_teachers', JSON.stringify(teachers));
+        }
 
         // ===================== HELPERS =====================
         function setLoading(show) {
@@ -1159,26 +1585,35 @@
         function openModal(id) { document.getElementById(id).classList.add('active'); }
         function closeModal(id) { document.getElementById(id).classList.remove('active'); }
 
-        // Close modal on overlay click
         document.querySelectorAll('.modal-overlay').forEach(overlay => {
             overlay.addEventListener('click', (e) => {
                 if (e.target === overlay) overlay.classList.remove('active');
             });
         });
 
+        function generateUUID() {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                const r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
+        }
+
         // ===================== NAVIGATION =====================
         function showSection(section) {
             document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.nav-item[data-section="' + section + '"]').forEach(el => el.classList.add('active'));
 
-            ['dashboard', 'students', 'attendance', 'performance', 'reports'].forEach(s => {
+            ['dashboard', 'students', 'teachers', 'attendance', 'performance', 'reports'].forEach(s => {
                 document.getElementById(s + 'Section').style.display = s === section ? 'block' : 'none';
             });
 
             if (section === 'students') renderStudentsTable();
+            if (section === 'teachers') renderTeachers();
+            if (section === 'performance') renderPerformance();
+            if (section === 'reports') renderReports();
+            if (section === 'attendance') renderAttendanceSection();
         }
 
-        // Attach nav click handlers
         document.querySelectorAll('.nav-item[data-section]').forEach(btn => {
             btn.addEventListener('click', function() {
                 showSection(this.dataset.section);
@@ -1211,7 +1646,13 @@
             renderStudents();
             renderStudentsTable();
             updateAttendanceSummary();
+            updatePerfStats();
             setLoading(false);
+        }
+
+        async function loadAllAttendance() {
+            const { data, error } = await supabaseClient.from('attendance').select('*').order('date');
+            if (!error && data) allAttendance = data;
         }
 
         async function loadActivities() {
@@ -1237,6 +1678,9 @@
                 document.getElementById('welcomeName').textContent = currentUser.email.split('@')[0];
                 document.getElementById('addActivityBtn').style.display = 'block';
                 document.getElementById('addStudentBtn').style.display = 'flex';
+                document.getElementById('addTeacherBtn').style.display = 'flex';
+                document.getElementById('addPerfBtn').style.display = 'flex';
+                document.getElementById('reportActions').style.display = 'flex';
             }
         }
 
@@ -1247,19 +1691,18 @@
                 list.innerHTML = '<p style="color:var(--text-muted); padding:20px; text-align:center;">No students yet. Add some from the Students page.</p>';
                 return;
             }
-            list.innerHTML = students.map(s => `
-                <div class="student-row">
-                    <div class="student-info">
-                        <div class="student-avatar" style="background:${s.color};">${s.initials}</div>
-                        <span class="student-name">${s.name}</span>
-                    </div>
-                    <button class="status-badge status-${(s.status || 'present').toLowerCase()}" data-student-id="${s.id}">
-                        ● ${s.status || 'Present'}
-                    </button>
-                </div>
-            `).join('');
+            list.innerHTML = students.map(s =>
+                '<div class="student-row">' +
+                    '<div class="student-info">' +
+                        '<div class="student-avatar" style="background:' + s.color + ';">' + s.initials + '</div>' +
+                        '<span class="student-name">' + s.name + '</span>' +
+                    '</div>' +
+                    '<button class="status-badge status-' + (s.status || 'present').toLowerCase() + '" data-student-id="' + s.id + '">' +
+                        (s.status || 'Present') +
+                    '</button>' +
+                '</div>'
+            ).join('');
 
-            // Attach click handlers to status badges
             list.querySelectorAll('.status-badge').forEach(btn => {
                 btn.addEventListener('click', function() {
                     cycleStatus(this.dataset.studentId);
@@ -1267,7 +1710,8 @@
             });
         }
 
-        function renderStudentsTable(filter = '') {
+        function renderStudentsTable(filter) {
+            filter = filter || '';
             const tbody = document.getElementById('studentsTableBody');
             const filtered = students.filter(s =>
                 s.name.toLowerCase().includes(filter.toLowerCase()) ||
@@ -1283,31 +1727,28 @@
 
             tbody.innerHTML = filtered.map(s => {
                 const status = s.status || 'Present';
-                return `
-                    <tr>
-                        <td>
-                            <div class="student-cell">
-                                <div class="student-avatar" style="background:${s.color};">${s.initials}</div>
-                                <span style="font-weight:600;">${s.name}</span>
-                            </div>
-                        </td>
-                        <td><span style="font-family:monospace; font-size:13px; color:var(--text-muted);">${s.initials}</span></td>
-                        <td>
-                            <span class="status-badge status-${status.toLowerCase()}" data-student-id="${s.id}">
-                                ● ${status}
-                            </span>
-                        </td>
-                        <td style="text-align:right;">
-                            <div class="action-btns" style="${!isLoggedIn ? 'display:none;' : ''}">
-                                <button class="btn-action btn-edit" data-edit-id="${s.id}" title="Edit">✎</button>
-                                <button class="btn-action btn-delete" data-delete-id="${s.id}" title="Delete">×</button>
-                            </div>
-                        </td>
-                    </tr>
-                `;
+                return '<tr>' +
+                    '<td>' +
+                        '<div class="student-cell">' +
+                            '<div class="student-avatar" style="background:' + s.color + ';">' + s.initials + '</div>' +
+                            '<span style="font-weight:600;">' + s.name + '</span>' +
+                        '</div>' +
+                    '</td>' +
+                    '<td><span style="font-family:monospace; font-size:13px; color:var(--text-muted);">' + s.initials + '</span></td>' +
+                    '<td>' +
+                        '<span class="status-badge status-' + status.toLowerCase() + '" data-student-id="' + s.id + '">' +
+                            status +
+                        '</span>' +
+                    '</td>' +
+                    '<td style="text-align:right;">' +
+                        '<div class="action-btns" style="' + (!isLoggedIn ? 'display:none;' : '') + '">' +
+                            '<button class="btn-action btn-edit" data-edit-id="' + s.id + '" title="Edit">Edit</button>' +
+                            '<button class="btn-action btn-delete" data-delete-id="' + s.id + '" title="Delete">Del</button>' +
+                        '</div>' +
+                    '</td>' +
+                '</tr>';
             }).join('');
 
-            // Attach handlers
             tbody.querySelectorAll('.status-badge').forEach(btn => {
                 btn.addEventListener('click', function() { cycleStatus(this.dataset.studentId); });
             });
@@ -1325,16 +1766,16 @@
                 list.innerHTML = '<p style="color:var(--text-muted); text-align:center; padding:20px;">No activities scheduled today.</p>';
                 return;
             }
-            list.innerHTML = activities.map(a => `
-                <div class="activity-item">
-                    <div class="activity-time">${a.time}</div>
-                    <div class="activity-details">
-                        <h4>${a.name}</h4>
-                        <p>${a.details}</p>
-                    </div>
-                    ${isLoggedIn ? `<button class="btn-icon activity-delete-btn" data-activity-id="${a.id}" style="width:28px;height:28px;" title="Delete">×</button>` : ''}
-                </div>
-            `).join('');
+            list.innerHTML = activities.map(a =>
+                '<div class="activity-item">' +
+                    '<div class="activity-time">' + a.time + '</div>' +
+                    '<div class="activity-details">' +
+                        '<h4>' + a.name + '</h4>' +
+                        '<p>' + a.details + '</p>' +
+                    '</div>' +
+                    (isLoggedIn ? '<button class="btn-icon activity-delete-btn" data-activity-id="' + a.id + '" style="width:28px;height:28px;" title="Delete">x</button>' : '') +
+                '</div>'
+            ).join('');
 
             list.querySelectorAll('.activity-delete-btn').forEach(btn => {
                 btn.addEventListener('click', function() { deleteActivity(this.dataset.activityId); });
@@ -1351,11 +1792,469 @@
             document.getElementById('attendanceRate').textContent = rate + '%';
             document.getElementById('totalStudents').textContent = total;
 
-            document.getElementById('attendanceSummary').innerHTML = `
-                <span class="attendance-badge badge-present">● ${present} Present</span>
-                <span class="attendance-badge badge-late">● ${late} Late</span>
-                <span class="attendance-badge badge-absent">● ${absent} Absent</span>
-            `;
+            document.getElementById('attendanceSummary').innerHTML =
+                '<span class="attendance-badge badge-present">' + present + ' Present</span>' +
+                '<span class="attendance-badge badge-late">' + late + ' Late</span>' +
+                '<span class="attendance-badge badge-absent">' + absent + ' Absent</span>';
+        }
+
+        // ===================== ATTENDANCE SECTION =====================
+        function renderAttendanceSection() {
+            const month = parseInt(document.getElementById('attendanceMonthSelect').value);
+            const year = parseInt(document.getElementById('attendanceYearSelect').value);
+            renderMonthlyAttendance(month, year);
+        }
+
+        function renderMonthlyAttendance(month, year) {
+            const container = document.getElementById('attendanceMonthContainer');
+            const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+            if (students.length === 0) {
+                container.innerHTML = '<div class="card"><div class="empty-state"><p>No students to display attendance for.</p></div></div>';
+                return;
+            }
+
+            // Filter attendance for selected month/year
+            const monthRecords = allAttendance.filter(a => {
+                const d = new Date(a.date);
+                return d.getMonth() === month && d.getFullYear() === year;
+            });
+
+            if (monthRecords.length === 0) {
+                container.innerHTML = '<div class="card"><div class="empty-state"><p>No attendance records for ' + monthNames[month] + ' ' + year + '.</p><p style="font-size:12px; margin-top:8px;">Mark attendance daily to build monthly summaries.</p></div></div>';
+                return;
+            }
+
+            // Calculate per student
+            const studentStats = {};
+            students.forEach(s => {
+                studentStats[s.id] = { name: s.name, initials: s.initials, color: s.color, present: 0, late: 0, absent: 0, total: 0 };
+            });
+
+            monthRecords.forEach(r => {
+                if (studentStats[r.student_id]) {
+                    studentStats[r.student_id][r.status.toLowerCase()]++;
+                    studentStats[r.student_id].total++;
+                }
+            });
+
+            const statsArray = Object.values(studentStats).filter(s => s.total > 0);
+            const totalDays = Math.max(...statsArray.map(s => s.total));
+
+            container.innerHTML =
+                '<div class="attendance-month-card">' +
+                    '<div class="attendance-month-header">' +
+                        '<div class="attendance-month-title">' + monthNames[month] + ' ' + year + '</div>' +
+                        '<div class="attendance-month-total">' + totalDays + ' days recorded</div>' +
+                    '</div>' +
+                    statsArray.map(s => {
+                        const absentRate = s.total > 0 ? Math.round((s.absent / s.total) * 100) : 0;
+                        return '<div class="attendance-student-row">' +
+                            '<div class="attendance-student-info">' +
+                                '<div class="student-avatar" style="background:' + s.color + '; width:28px; height:28px; font-size:10px;">' + s.initials + '</div>' +
+                                '<span style="font-weight:600; font-size:13px;">' + s.name + '</span>' +
+                            '</div>' +
+                            '<div class="attendance-count">' +
+                                '<span class="count-present" title="Present">' + s.present + 'P</span>' +
+                                '<span class="count-late" title="Late">' + s.late + 'L</span>' +
+                                '<span class="count-absent" title="Absent">' + s.absent + 'A</span>' +
+                                '<span style="color:var(--text-muted); font-size:11px;">(' + absentRate + '% absent)</span>' +
+                            '</div>' +
+                        '</div>';
+                    }).join('') +
+                '</div>';
+        }
+
+        // ===================== TEACHERS =====================
+        function renderTeachers() {
+            const container = document.getElementById('teachersListContainer');
+            if (teachers.length === 0) {
+                container.innerHTML = '<div class="card"><p style="color:var(--text-muted);">No teachers added yet.</p></div>';
+                return;
+            }
+            container.innerHTML = teachers.map(t => {
+                const initials = t.name.split(' ').map(n => n[0]).join('').substring(0,2).toUpperCase();
+                return '<div class="teacher-card">' +
+                    '<div class="teacher-card-avatar" style="background:' + (t.color || '#4a9bb0') + ';">' + initials + '</div>' +
+                    '<div class="teacher-card-info" style="flex:1;">' +
+                        '<h4>' + t.name + '</h4>' +
+                        '<p>' + (t.role || 'Teacher') + (t.email ? ' &middot; ' + t.email : '') + '</p>' +
+                    '</div>' +
+                    (isLoggedIn ? '<div class="action-btns"><button class="btn-action btn-delete" data-teacher-delete="' + t.id + '" title="Delete">Del</button></div>' : '') +
+                '</div>';
+            }).join('');
+
+            container.querySelectorAll('[data-teacher-delete]').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const id = this.dataset.teacherDelete;
+                    teachers = teachers.filter(t => t.id !== id);
+                    saveLocalData();
+                    renderTeachers();
+                    showToast('Teacher removed');
+                });
+            });
+        }
+
+        function openTeacherModal() {
+            if (!isLoggedIn) { showToast('Please login to manage teachers'); return; }
+            document.getElementById('teacherModalTitle').textContent = 'Add Teacher';
+            document.getElementById('teacherEditId').value = '';
+            document.getElementById('teacherNameInput').value = '';
+            document.getElementById('teacherRole').value = '';
+            document.getElementById('teacherEmailInput').value = '';
+            openModal('teacherModal');
+        }
+
+        function saveTeacher() {
+            const name = document.getElementById('teacherNameInput').value.trim();
+            const role = document.getElementById('teacherRole').value.trim();
+            const email = document.getElementById('teacherEmailInput').value.trim();
+            if (!name) { showToast('Please enter a name'); return; }
+
+            const colors = ['#4a9bb0', '#5cb85c', '#f0ad4e', '#d9534f', '#e8a0bf', '#b8a9c9'];
+            const color = colors[Math.floor(Math.random() * colors.length)];
+
+            teachers.push({ id: generateUUID(), name: name, role: role, email: email, color: color, created_at: new Date().toISOString() });
+            saveLocalData();
+            closeModal('teacherModal');
+            renderTeachers();
+            showToast('Teacher added: ' + name);
+        }
+
+        // ===================== PERFORMANCE =====================
+        function renderPerformance() {
+            const list = document.getElementById('perfList');
+            const stats = document.getElementById('perfStats');
+            document.getElementById('perfCount').textContent = performanceData.length;
+
+            const select = document.getElementById('perfStudentSelect');
+            select.innerHTML = students.map(s => '<option value="' + s.id + '">' + s.name + '</option>').join('');
+
+            if (performanceData.length === 0) {
+                list.innerHTML = '<p style="color:var(--text-muted); text-align:center; padding:20px;">No performance notes yet.</p>';
+                stats.innerHTML = '<p style="color:var(--text-muted); font-size:13px;">Add performance notes to see insights.</p>';
+                return;
+            }
+
+            const categories = {};
+            const studentPerfCount = {};
+            performanceData.forEach(p => {
+                categories[p.category] = (categories[p.category] || 0) + 1;
+                studentPerfCount[p.student_id] = (studentPerfCount[p.student_id] || 0) + 1;
+            });
+            const avgRating = performanceData.reduce((a, b) => a + parseInt(b.rating), 0) / performanceData.length;
+            const topStudentId = Object.keys(studentPerfCount).sort((a,b) => studentPerfCount[b] - studentPerfCount[a])[0];
+            const topStudent = students.find(s => s.id === topStudentId);
+
+            stats.innerHTML =
+                '<div style="background:#f8f6f2; padding:16px; border-radius:10px; margin-bottom:16px;">' +
+                    '<div style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:8px;">Most Active Student</div>' +
+                    '<div style="display:flex; align-items:center; gap:10px;">' +
+                        '<div class="student-avatar" style="background:' + (topStudent ? topStudent.color : '#ccc') + '; width:36px; height:36px; font-size:12px;">' + (topStudent ? topStudent.initials : '?') + '</div>' +
+                        '<div>' +
+                            '<div style="font-size:16px; font-weight:700; color:var(--text-dark);">' + (topStudent ? topStudent.name : 'N/A') + '</div>' +
+                            '<div style="font-size:12px; color:var(--text-muted);">' + (topStudent ? (studentPerfCount[topStudent.id] || 0) + ' notes recorded' : 'No data') + '</div>' +
+                        '</div>' +
+                    '</div>' +
+                '</div>' +
+                '<div style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">' +
+                    '<strong style="color:var(--text-dark);">Category Breakdown:</strong><br>' +
+                    Object.entries(categories).map(([cat, count]) => '<span style="display:inline-block; margin-right:12px; margin-top:4px;"><span style="background:var(--accent-blue); color:white; padding:2px 8px; border-radius:10px; font-size:11px; font-weight:600;">' + count + '</span> ' + cat + '</span>').join('') +
+                '</div>' +
+                '<div style="font-size:12px; color:var(--text-muted);">' +
+                    '<strong style="color:var(--text-dark);">Total Notes:</strong> ' + performanceData.length +
+                '</div>';
+
+            const sorted = [...performanceData].sort((a, b) => new Date(b.date) - new Date(a.date));
+            list.innerHTML = sorted.slice(0, 20).map(p => {
+                const student = students.find(s => s.id === p.student_id);
+                const sName = student ? student.name : 'Unknown';
+                const sColor = student ? student.color : '#ccc';
+                const sInitials = student ? student.initials : '?';
+                const stars = Array(5).fill(0).map((_, i) =>
+                    '<svg class="star ' + (i < p.rating ? '' : 'empty') + '" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>'
+                ).join('');
+                return '<div class="perf-entry-card">' +
+                    '<div class="perf-entry-header">' +
+                        '<div class="perf-entry-student">' +
+                            '<div class="student-avatar" style="background:' + sColor + '; width:28px; height:28px; font-size:10px;">' + sInitials + '</div>' +
+                            sName +
+                        '</div>' +
+                        '<div class="perf-entry-meta">' +
+                            '<span class="perf-category cat-' + p.category.toLowerCase() + '">' + p.category + '</span>' +
+                            '<div class="perf-rating">' + stars + '</div>' +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="perf-description">' + p.description + '</div>' +
+                    '<div class="perf-date">' + new Date(p.date).toLocaleDateString('en-GB', {day:'numeric', month:'short', year:'numeric'}) + '</div>' +
+                '</div>';
+            }).join('');
+        }
+
+        function openPerfModal() {
+            if (!isLoggedIn) { showToast('Please login to add performance notes'); return; }
+            if (students.length === 0) { showToast('Add students first'); return; }
+            document.getElementById('perfDate').value = todayStr;
+            document.getElementById('perfDescription').value = '';
+            document.getElementById('perfRating').value = '4';
+            document.getElementById('perfCategory').value = 'Academic';
+            const select = document.getElementById('perfStudentSelect');
+            select.innerHTML = students.map(s => '<option value="' + s.id + '">' + s.name + '</option>').join('');
+            openModal('perfModal');
+        }
+
+        function savePerformance() {
+            const student_id = document.getElementById('perfStudentSelect').value;
+            const date = document.getElementById('perfDate').value;
+            const category = document.getElementById('perfCategory').value;
+            const rating = parseInt(document.getElementById('perfRating').value);
+            const description = document.getElementById('perfDescription').value.trim();
+
+            if (!date || !description) { showToast('Please fill in all fields'); return; }
+
+            performanceData.push({
+                id: generateUUID(),
+                student_id: student_id,
+                date: date,
+                category: category,
+                rating: rating,
+                description: description,
+                created_at: new Date().toISOString()
+            });
+            saveLocalData();
+            closeModal('perfModal');
+            renderPerformance();
+            updatePerfStats();
+            showToast('Performance note saved');
+        }
+
+        function updatePerfStats() {
+            document.getElementById('perfCount').textContent = performanceData.length;
+        }
+
+        // ===================== AI REPORT GENERATION (SIMPLE) =====================
+        function generateMonthlyReport(month, year) {
+            const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+            const entries = performanceData.filter(p => {
+                const d = new Date(p.date);
+                return d.getMonth() + 1 === month && d.getFullYear() === year;
+            });
+
+            if (entries.length === 0) return null;
+
+            const byStudent = {};
+            entries.forEach(e => {
+                if (!byStudent[e.student_id]) byStudent[e.student_id] = [];
+                byStudent[e.student_id].push(e);
+            });
+
+            // Calculate overall class stats
+            const avgRating = entries.reduce((a,b) => a + b.rating, 0) / entries.length;
+            const overall_performance = avgRating >= 4 ? 'excellent' : avgRating >= 3 ? 'good' : 'satisfactory';
+
+            // Get attendance data for this month
+            const monthAtt = allAttendance.filter(a => {
+                const d = new Date(a.date);
+                return d.getMonth() + 1 === month && d.getFullYear() === year;
+            });
+            const totalRecords = monthAtt.length;
+            const presentRecords = monthAtt.filter(a => a.status === 'Present').length;
+            const attendance_rate = totalRecords > 0 ? Math.round((presentRecords / totalRecords) * 100) : 0;
+            const present_count = students.filter(s => {
+                const sAtt = monthAtt.filter(a => a.student_id === s.id);
+                return sAtt.length > 0 && sAtt.filter(a => a.status === 'Present').length / sAtt.length >= 0.8;
+            }).length;
+
+            // Find strongest and weakest areas
+            const catAvgs = {};
+            entries.forEach(e => {
+                if (!catAvgs[e.category]) catAvgs[e.category] = { sum: 0, count: 0 };
+                catAvgs[e.category].sum += e.rating;
+                catAvgs[e.category].count++;
+            });
+            const sortedCats = Object.entries(catAvgs).sort((a,b) => (b[1].sum/b[1].count) - (a[1].sum/a[1].count));
+            const strongest = sortedCats.slice(0, 2).map(c => c[0]).join(' and ');
+            const areasToImprove = sortedCats.slice(-2).map(c => c[0]).join(' and ');
+
+            let content = 'MONTHLY PROGRESS REPORT\n';
+            content += 'Batu Ferringhi Community Library Learning Centre\n';
+            content += monthNames[month-1] + ' ' + year + '\n';
+            content += 'Generated: ' + new Date().toLocaleDateString('en-GB') + '\n\n';
+
+            content += '=== CLASS OVERVIEW ===\n';
+            content += 'Overall, the class demonstrated ' + overall_performance + ' progress during this reporting period. ';
+            content += 'Students maintained an average attendance rate of ' + attendance_rate + '%, with ' + present_count + ' students attending regularly. ';
+            content += 'Most students actively participated in lessons and showed positive engagement throughout class activities. ';
+            content += 'The class performed particularly well in ' + strongest + ', while additional focus is recommended for ' + areasToImprove + ' to further strengthen overall academic performance.\n\n';
+
+            content += '=== STUDENT SUMMARIES ===\n\n';
+            Object.keys(byStudent).forEach(sid => {
+                const student = students.find(s => s.id === sid);
+                if (!student) return;
+                const sEntries = byStudent[sid];
+                const avg = sEntries.reduce((a,b) => a + b.rating, 0) / sEntries.length;
+                const overall = avg >= 4.5 ? 'Outstanding' : avg >= 3.5 ? 'Good' : avg >= 2.5 ? 'Satisfactory' : 'Needs Support';
+                content += student.name + ' - ' + overall + ' (' + avg.toFixed(1) + '/5)\n';
+                sEntries.forEach(e => {
+                    content += '  [' + e.rating + '/5] ' + e.category + ': ' + e.description + '\n';
+                });
+                content += '\n';
+            });
+
+            return { type: 'monthly', month: month, year: year, content: content, generated_at: new Date().toISOString() };
+        }
+
+        function generateYearlyReport(year) {
+            const entries = performanceData.filter(p => new Date(p.date).getFullYear() === year);
+            if (entries.length === 0) return null;
+
+            const byStudent = {};
+            entries.forEach(e => {
+                if (!byStudent[e.student_id]) byStudent[e.student_id] = [];
+                byStudent[e.student_id].push(e);
+            });
+
+            // Calculate overall stats
+            const avgRating = entries.reduce((a,b) => a + b.rating, 0) / entries.length;
+            const overall_performance = avgRating >= 4 ? 'excellent' : avgRating >= 3 ? 'good' : 'satisfactory';
+
+            const yearAtt = allAttendance.filter(a => new Date(a.date).getFullYear() === year);
+            const totalRecords = yearAtt.length;
+            const presentRecords = yearAtt.filter(a => a.status === 'Present').length;
+            const attendance_rate = totalRecords > 0 ? Math.round((presentRecords / totalRecords) * 100) : 0;
+            const present_count = students.filter(s => {
+                const sAtt = yearAtt.filter(a => a.student_id === s.id);
+                return sAtt.length > 0 && sAtt.filter(a => a.status === 'Present').length / sAtt.length >= 0.8;
+            }).length;
+
+            const catAvgs = {};
+            entries.forEach(e => {
+                if (!catAvgs[e.category]) catAvgs[e.category] = { sum: 0, count: 0 };
+                catAvgs[e.category].sum += e.rating;
+                catAvgs[e.category].count++;
+            });
+            const sortedCats = Object.entries(catAvgs).sort((a,b) => (b[1].sum/b[1].count) - (a[1].sum/a[1].count));
+            const strongest = sortedCats.slice(0, 2).map(c => c[0]).join(' and ');
+            const areasToImprove = sortedCats.slice(-2).map(c => c[0]).join(' and ');
+
+            let content = 'ANNUAL PROGRESS REPORT\n';
+            content += 'Batu Ferringhi Community Library Learning Centre\n';
+            content += 'Academic Year ' + year + '\n';
+            content += 'Generated: ' + new Date().toLocaleDateString('en-GB') + '\n\n';
+
+            content += '=== YEAR OVERVIEW ===\n';
+            content += 'Overall, the class demonstrated ' + overall_performance + ' progress during this academic year. ';
+            content += 'Students maintained an average attendance rate of ' + attendance_rate + '%, with ' + present_count + ' students attending regularly throughout the year. ';
+            content += 'Most students actively participated in lessons and showed positive engagement across all class activities. ';
+            content += 'The class performed particularly well in ' + strongest + ', while additional focus is recommended for ' + areasToImprove + ' to further strengthen overall academic performance.\n\n';
+
+            content += '=== STUDENT SUMMARIES ===\n\n';
+            Object.keys(byStudent).forEach(sid => {
+                const student = students.find(s => s.id === sid);
+                if (!student) return;
+                const sEntries = byStudent[sid];
+                const avg = sEntries.reduce((a,b) => a + b.rating, 0) / sEntries.length;
+                const overall = avg >= 4.5 ? 'Outstanding' : avg >= 3.5 ? 'Good' : avg >= 2.5 ? 'Satisfactory' : 'Needs Support';
+                content += student.name + ' - ' + overall + ' (' + avg.toFixed(1) + '/5)\n';
+                const cats = {};
+                sEntries.forEach(e => {
+                    if (!cats[e.category]) cats[e.category] = [];
+                    cats[e.category].push(e.rating);
+                });
+                Object.keys(cats).forEach(cat => {
+                    const catAvg = cats[cat].reduce((a,b) => a+b, 0) / cats[cat].length;
+                    content += '  ' + cat + ': ' + catAvg.toFixed(1) + '/5\n';
+                });
+                content += '\n';
+            });
+
+            return { type: 'yearly', year: year, content: content, generated_at: new Date().toISOString() };
+        }
+
+        // ===================== REPORTS =====================
+        function renderReports() {
+            const container = document.getElementById('reportsList');
+            document.getElementById('reportCount').textContent = reports.length;
+
+            if (reports.length === 0) {
+                container.innerHTML =
+                    '<div class="card">' +
+                        '<div class="empty-state">' +
+                            '<p>Generate your first report using the buttons above.</p>' +
+                            '<p style="font-size:12px; margin-top:8px;">Reports are automatically created from performance notes.</p>' +
+                        '</div>' +
+                    '</div>';
+                return;
+            }
+
+            const sorted = [...reports].sort((a, b) => new Date(b.generated_at) - new Date(a.generated_at));
+            container.innerHTML = sorted.map(r => {
+                const title = r.type === 'monthly'
+                    ? 'Monthly Report - ' + ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][r.month-1] + ' ' + r.year
+                    : 'Annual Report - ' + r.year;
+                const contentHtml = r.content.replace(/\n/g, '<br>');
+                return '<div class="report-card">' +
+                    '<div class="report-header">' +
+                        '<div class="report-title">' + title + '</div>' +
+                        '<span class="report-badge">' + r.type.toUpperCase() + '</span>' +
+                    '</div>' +
+                    '<div class="report-content">' + contentHtml + '</div>' +
+                    '<div class="report-actions">' +
+                        '<button class="btn-secondary btn-report-delete" data-report-id="' + r.id + '" style="flex:0; padding:6px 14px; font-size:12px;">Delete</button>' +
+                        '<span style="font-size:12px; color:var(--text-muted); margin-left:auto;">' + new Date(r.generated_at).toLocaleDateString('en-GB') + '</span>' +
+                    '</div>' +
+                '</div>';
+            }).join('');
+
+            container.querySelectorAll('.btn-report-delete').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    deleteReport(this.dataset.reportId);
+                });
+            });
+        }
+
+        function generateReport(type) {
+            if (!isLoggedIn) { showToast('Please login to generate reports'); return; }
+            if (performanceData.length === 0) { showToast('Add performance notes first'); return; }
+
+            const now = new Date();
+            const currentMonth = now.getMonth() + 1;
+            const currentYear = now.getFullYear();
+
+            // Check if report already exists for this period
+            const existing = reports.find(r => {
+                if (type === 'monthly') return r.type === 'monthly' && r.month === currentMonth && r.year === currentYear;
+                return r.type === 'yearly' && r.year === currentYear;
+            });
+
+            if (existing) {
+                showToast((type === 'monthly' ? 'Monthly' : 'Yearly') + ' report already exists for this period');
+                return;
+            }
+
+            setLoading(true);
+            let report = null;
+            if (type === 'monthly') {
+                report = generateMonthlyReport(currentMonth, currentYear);
+            } else {
+                report = generateYearlyReport(currentYear);
+            }
+            setLoading(false);
+
+            if (!report) { showToast('No performance data for this period'); return; }
+
+            report.id = generateUUID();
+            reports.push(report);
+            saveLocalData();
+            renderReports();
+            showToast((type === 'monthly' ? 'Monthly' : 'Yearly') + ' report generated');
+        }
+
+        function deleteReport(id) {
+            reports = reports.filter(r => r.id !== id);
+            saveLocalData();
+            renderReports();
+            showToast('Report deleted');
         }
 
         // ===================== ATTENDANCE =====================
@@ -1449,14 +2348,14 @@
             if (editId) {
                 const { error } = await supabaseClient
                     .from('students')
-                    .update({ name, initials, color: selectedColor })
+                    .update({ name: name, initials: initials, color: selectedColor })
                     .eq('id', editId);
                 if (error) { showToast('Error: ' + error.message); setLoading(false); return; }
                 showToast('Updated ' + name);
             } else {
                 const { data, error } = await supabaseClient
                     .from('students')
-                    .insert({ name, initials, color: selectedColor })
+                    .insert({ name: name, initials: initials, color: selectedColor })
                     .select();
                 if (error) { showToast('Error: ' + error.message); setLoading(false); return; }
 
@@ -1516,7 +2415,7 @@
 
             setLoading(true);
             const { error } = await supabaseClient.from('activities').insert({
-                time, name, details, date: todayStr
+                time: time, name: name, details: details, date: todayStr
             });
 
             if (error) { showToast('Error: ' + error.message); setLoading(false); return; }
@@ -1552,7 +2451,7 @@
             if (!email || !password) { showToast('Enter email and password'); return; }
 
             setLoading(true);
-            const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+            const { data, error } = await supabaseClient.auth.signInWithPassword({ email: email, password: password });
             setLoading(false);
 
             if (error) { showToast(error.message); return; }
@@ -1566,6 +2465,9 @@
             document.getElementById('welcomeName').textContent = email.split('@')[0];
             document.getElementById('addActivityBtn').style.display = 'block';
             document.getElementById('addStudentBtn').style.display = 'flex';
+            document.getElementById('addTeacherBtn').style.display = 'flex';
+            document.getElementById('addPerfBtn').style.display = 'flex';
+            document.getElementById('reportActions').style.display = 'flex';
             closeModal('loginModal');
             showToast('Welcome back!');
             await loadStudents();
@@ -1581,39 +2483,41 @@
             document.getElementById('welcomeName').textContent = 'Teacher';
             document.getElementById('addActivityBtn').style.display = 'none';
             document.getElementById('addStudentBtn').style.display = 'none';
+            document.getElementById('addTeacherBtn').style.display = 'none';
+            document.getElementById('addPerfBtn').style.display = 'none';
+            document.getElementById('reportActions').style.display = 'none';
             showToast('Logged out');
             await loadStudents();
             await loadActivities();
         }
 
-        async function refreshData() {
-            showToast('Refreshing...');
-            await loadStudents();
-            await loadActivities();
-        }
-
-        async function publishAll() {
-            showToast('All changes saved to database!');
-        }
-
         // ===================== EVENT LISTENERS =====================
         document.getElementById('loginBtnNav').addEventListener('click', toggleLogin);
-        document.getElementById('refreshBtn').addEventListener('click', refreshData);
-        document.getElementById('publishBtn').addEventListener('click', publishAll);
         document.getElementById('addStudentBtn').addEventListener('click', openStudentModal);
+        document.getElementById('addTeacherBtn').addEventListener('click', openTeacherModal);
         document.getElementById('addActivityBtn').addEventListener('click', openActivityModal);
+        document.getElementById('addPerfBtn').addEventListener('click', openPerfModal);
         document.getElementById('loginCancelBtn').addEventListener('click', function() { closeModal('loginModal'); });
         document.getElementById('loginSubmitBtn').addEventListener('click', doLogin);
         document.getElementById('studentCancelBtn').addEventListener('click', function() { closeModal('studentModal'); });
         document.getElementById('studentSaveBtn').addEventListener('click', saveStudent);
+        document.getElementById('teacherCancelBtn').addEventListener('click', function() { closeModal('teacherModal'); });
+        document.getElementById('teacherSaveBtn').addEventListener('click', saveTeacher);
+        document.getElementById('perfCancelBtn').addEventListener('click', function() { closeModal('perfModal'); });
+        document.getElementById('perfSaveBtn').addEventListener('click', savePerformance);
         document.getElementById('deleteCancelBtn').addEventListener('click', function() { closeModal('deleteModal'); });
         document.getElementById('deleteConfirmBtn').addEventListener('click', confirmDelete);
         document.getElementById('activityCancelBtn').addEventListener('click', function() { closeModal('activityModal'); });
         document.getElementById('activitySaveBtn').addEventListener('click', saveActivity);
         document.getElementById('studentSearch').addEventListener('input', filterStudents);
         document.getElementById('studentName').addEventListener('input', generateInitials);
+        document.getElementById('genMonthlyBtn').addEventListener('click', function() { generateReport('monthly'); });
+        document.getElementById('genYearlyBtn').addEventListener('click', function() { generateReport('yearly'); });
+        document.getElementById('loadAttendanceMonthBtn').addEventListener('click', renderAttendanceSection);
+        document.getElementById('viewAllAttendanceBtn').addEventListener('click', function() { showSection('attendance'); });
+        document.getElementById('attendanceMonthSelect').addEventListener('change', renderAttendanceSection);
+        document.getElementById('attendanceYearSelect').addEventListener('change', renderAttendanceSection);
 
-        // Color picker listeners
         document.querySelectorAll('.color-option').forEach(el => {
             el.addEventListener('click', function() { selectColor(this); });
         });
@@ -1624,9 +2528,14 @@
         });
 
         async function init() {
+            loadLocalData();
             await checkSession();
             await loadStudents();
             await loadActivities();
+            await loadAllAttendance();
+            renderTeachers();
+            renderPerformance();
+            renderReports();
         }
 
         init();
