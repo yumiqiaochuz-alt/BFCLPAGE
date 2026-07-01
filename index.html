@@ -1,0 +1,1588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BFCL - Batu Ferringhi Community Library</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        :root {
+            --sidebar-bg: #1a5f6e;
+            --sidebar-hover: #247a8a;
+            --sidebar-active: #ffffff;
+            --sidebar-text: #b8d4d9;
+            --sidebar-active-text: #1a5f6e;
+            --main-bg: #f5f0e6;
+            --card-bg: #ffffff;
+            --text-dark: #1a3c42;
+            --text-muted: #6b8a8f;
+            --accent-blue: #4a9bb0;
+            --accent-green: #5cb85c;
+            --accent-yellow: #f0ad4e;
+            --accent-red: #d9534f;
+            --accent-pink: #e8a0bf;
+            --border-radius: 16px;
+            --shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--main-bg);
+            color: var(--text-dark);
+            min-height: 100vh;
+        }
+
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 260px;
+            background: var(--sidebar-bg);
+            display: flex;
+            flex-direction: column;
+            padding: 24px 16px;
+            position: fixed;
+            height: 100vh;
+            left: 0;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 40px;
+            padding: 0 8px;
+        }
+
+        .logo-section img {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+
+        .logo-text { color: white; }
+
+        .logo-text h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 18px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .logo-text span {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--sidebar-text);
+            font-weight: 500;
+        }
+
+        .nav-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 12px 16px;
+            border-radius: 12px;
+            color: var(--sidebar-text);
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+        }
+
+        .nav-item:hover {
+            background: var(--sidebar-hover);
+            color: white;
+        }
+
+        .nav-item.active {
+            background: var(--sidebar-active);
+            color: var(--sidebar-active-text);
+        }
+
+        .nav-item svg {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+        }
+
+        .sidebar-footer {
+            margin-top: auto;
+            padding: 0 8px;
+        }
+
+        .teacher-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 12px;
+            color: white;
+            font-size: 13px;
+        }
+
+        .teacher-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--accent-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 12px;
+        }
+
+        .main-content {
+            margin-left: 260px;
+            flex: 1;
+            padding: 24px 32px;
+            min-height: 100vh;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .page-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .page-title h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .version-badge {
+            background: #e8e4dc;
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-size: 11px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .top-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .btn-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            border: 1px solid #ddd8cf;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--text-muted);
+            transition: all 0.2s;
+        }
+
+        .btn-icon:hover { background: #f0ebe3; }
+
+        .btn-publish {
+            background: var(--text-dark);
+            color: white;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-publish:hover { background: #0d2a30; }
+
+        .welcome-banner {
+            background: linear-gradient(135deg, #a8d8e8 0%, #c8e6d0 50%, #f0e6c8 100%);
+            border-radius: var(--border-radius);
+            padding: 32px;
+            margin-bottom: 24px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .welcome-banner::before {
+            content: '';
+            position: absolute;
+            top: -40px;
+            right: -40px;
+            width: 160px;
+            height: 160px;
+            background: rgba(255,255,255,0.25);
+            border-radius: 50%;
+        }
+
+        .welcome-banner h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+            position: relative;
+        }
+
+        .welcome-banner p {
+            color: var(--text-muted);
+            font-size: 15px;
+            position: relative;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: var(--shadow);
+            transition: transform 0.2s;
+        }
+
+        .stat-card:hover { transform: translateY(-2px); }
+
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+        }
+
+        .stat-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .stat-icon.blue { background: #e3f2fd; color: #1976d2; }
+        .stat-icon.green { background: #e8f5e9; color: #388e3c; }
+        .stat-icon.yellow { background: #fff8e1; color: #f9a825; }
+        .stat-icon.pink { background: #fce4ec; color: #c2185b; }
+
+        .stat-trend {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 20px;
+        }
+
+        .trend-up { background: #e8f5e9; color: #388e3c; }
+        .trend-steady { background: #f5f5f5; color: #757575; }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 24px;
+            box-shadow: var(--shadow);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .card-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .card-subtitle {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .btn-view-all {
+            background: var(--accent-blue);
+            color: white;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .btn-view-all:hover { background: #3d8a9c; }
+
+        .attendance-summary {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .attendance-badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .badge-present { background: #e8f5e9; color: #2e7d32; }
+        .badge-late { background: #fff3e0; color: #ef6c00; }
+        .badge-absent { background: #ffebee; color: #c62828; }
+
+        .student-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .student-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            border-radius: 12px;
+            transition: background 0.2s;
+        }
+
+        .student-row:hover { background: #f8f6f2; }
+
+        .student-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .student-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+            color: white;
+        }
+
+        .student-name {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .status-badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+        }
+
+        .status-present { background: #e8f5e9; color: #2e7d32; }
+        .status-late { background: #fff3e0; color: #ef6c00; }
+        .status-absent { background: #ffebee; color: #c62828; }
+
+        .status-badge:hover { filter: brightness(0.95); }
+
+        .activity-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .activity-item {
+            display: flex;
+            gap: 14px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #f0ebe3;
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .activity-time {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--accent-blue);
+            min-width: 44px;
+            padding-top: 2px;
+        }
+
+        .activity-details h4 {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 4px;
+        }
+
+        .activity-details p {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .btn-add-activity {
+            width: 100%;
+            margin-top: 16px;
+            padding: 10px;
+            border: 2px dashed #ddd8cf;
+            background: transparent;
+            border-radius: 12px;
+            color: var(--text-muted);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-add-activity:hover {
+            border-color: var(--accent-blue);
+            color: var(--accent-blue);
+            background: #f0f7fa;
+        }
+
+        .students-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: white;
+            border: 1px solid #e0dbd2;
+            border-radius: 10px;
+            padding: 8px 14px;
+            width: 280px;
+        }
+
+        .search-box input {
+            border: none;
+            outline: none;
+            font-size: 14px;
+            font-family: inherit;
+            width: 100%;
+            background: transparent;
+        }
+
+        .btn-add {
+            background: var(--text-dark);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-add:hover { background: #0d2a30; }
+
+        .students-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .students-table th {
+            text-align: left;
+            padding: 12px 16px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid #f0ebe3;
+        }
+
+        .students-table td {
+            padding: 14px 16px;
+            border-bottom: 1px solid #f8f6f2;
+            font-size: 14px;
+        }
+
+        .students-table tr:hover td {
+            background: #faf9f7;
+        }
+
+        .student-cell {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .student-cell .student-avatar {
+            width: 36px;
+            height: 36px;
+            font-size: 12px;
+        }
+
+        .action-btns {
+            display: flex;
+            gap: 6px;
+        }
+
+        .btn-action {
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .btn-edit { background: #e3f2fd; color: #1976d2; }
+        .btn-edit:hover { background: #bbdefb; }
+        .btn-delete { background: #ffebee; color: #c62828; }
+        .btn-delete:hover { background: #ffcdd2; }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-muted);
+        }
+
+        .empty-state svg {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 16px;
+            opacity: 0.4;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.4);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-overlay.active { display: flex; }
+
+        .modal {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 28px;
+            width: 90%;
+            max-width: 420px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            animation: modalSlide 0.3s ease;
+        }
+
+        @keyframes modalSlide {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .modal h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid #e0dbd2;
+            border-radius: 10px;
+            font-size: 14px;
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            border-color: var(--accent-blue);
+        }
+
+        .color-picker {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .color-option {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .color-option.selected {
+            border-color: var(--text-dark);
+            transform: scale(1.1);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn-primary {
+            flex: 1;
+            background: var(--text-dark);
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .btn-secondary {
+            flex: 1;
+            background: #f5f0e6;
+            color: var(--text-dark);
+            border: none;
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .btn-danger {
+            flex: 1;
+            background: #ffebee;
+            color: #c62828;
+            border: none;
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .login-logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: block;
+            object-fit: cover;
+        }
+
+        .login-title {
+            text-align: center;
+            margin-bottom: 8px;
+        }
+
+        .login-subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 13px;
+            margin-bottom: 24px;
+        }
+
+        @media (max-width: 1100px) {
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .dashboard-grid { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar { transform: translateX(-100%); transition: transform 0.3s; }
+            .sidebar.open { transform: translateX(0); }
+            .main-content { margin-left: 0; }
+            .stats-grid { grid-template-columns: 1fr; }
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: var(--text-dark);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 500;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 2000;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .loading-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(245,240,230,0.8);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 3000;
+        }
+
+        .loading-overlay.active { display: flex; }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid #ddd8cf;
+            border-top-color: var(--sidebar-bg);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner"></div>
+    </div>
+
+    <div class="app-container">
+        <aside class="sidebar" id="sidebar">
+            <div class="logo-section">
+                <img src="https://placehold.co/48x48/1a5f6e/ffffff?text=BFCL" alt="BFCL Logo" id="logoImg">
+                <div class="logo-text">
+                    <h2>BFCL</h2>
+                    <span>Education Hub</span>
+                </div>
+            </div>
+
+            <nav class="nav-menu">
+                <button class="nav-item active" onclick="showSection('dashboard')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+                    Dashboard
+                </button>
+                <button class="nav-item" onclick="showSection('students')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    Students
+                </button>
+                <button class="nav-item" onclick="showSection('attendance')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    Attendance
+                </button>
+                <button class="nav-item" onclick="showSection('performance')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                    Performance
+                </button>
+                <button class="nav-item" onclick="showSection('reports')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                    Reports
+                </button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="teacher-info" id="teacherInfo" style="display:none;">
+                    <div class="teacher-avatar" id="teacherAvatar">TQ</div>
+                    <div>
+                        <div style="font-weight:600;" id="teacherName">Teacher</div>
+                        <div style="font-size:11px; opacity:0.7;">Logged in</div>
+                    </div>
+                </div>
+                <button class="nav-item" style="margin-top:10px;" onclick="toggleLogin()" id="loginBtn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+                    <span id="loginText">Teacher Login</span>
+                </button>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <div id="dashboardSection">
+                <div class="top-bar">
+                    <div class="page-title">
+                        <h1>School Dashboard</h1>
+                        <span class="version-badge">v1</span>
+                    </div>
+                    <div class="top-actions">
+                        <button class="btn-icon" title="Refresh" onclick="refreshData()">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+                        </button>
+                        <button class="btn-publish" onclick="publishAll()">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                            Publish
+                        </button>
+                    </div>
+                </div>
+
+                <div class="welcome-banner">
+                    <h2>Welcome back, <span id="welcomeName">Teacher</span></h2>
+                    <p>Empowering children through education</p>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon blue">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                            </div>
+                            <span class="stat-trend trend-up">▲ 6%</span>
+                        </div>
+                        <div class="stat-value" id="totalStudents">0</div>
+                        <div class="stat-label">Total Students</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon green">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                            </div>
+                            <span class="stat-trend trend-steady">● steady</span>
+                        </div>
+                        <div class="stat-value" id="attendanceRate">0%</div>
+                        <div class="stat-label">Today's Attendance</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon yellow">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                            </div>
+                            <span class="stat-trend trend-steady">● steady</span>
+                        </div>
+                        <div class="stat-value" id="avgScore">82%</div>
+                        <div class="stat-label">Average Score</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon pink">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                            </div>
+                            <span class="stat-trend trend-up">▲ 2</span>
+                        </div>
+                        <div class="stat-value" id="monthlyReports">14</div>
+                        <div class="stat-label">Monthly Reports</div>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <div>
+                                <div class="card-title">Attendance</div>
+                                <div class="card-subtitle" id="attendanceDate">1 July 2026</div>
+                            </div>
+                            <button class="btn-view-all">View All</button>
+                        </div>
+
+                        <div class="attendance-summary" id="attendanceSummary">
+                            <span class="attendance-badge badge-present">● 0 Present</span>
+                            <span class="attendance-badge badge-late">● 0 Late</span>
+                            <span class="attendance-badge badge-absent">● 0 Absent</span>
+                        </div>
+
+                        <div class="student-list" id="studentList"></div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title" style="display:flex; align-items:center; gap:8px;">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                                Upcoming Activities
+                            </div>
+                        </div>
+
+                        <div class="activity-list" id="activityList"></div>
+
+                        <button class="btn-add-activity" onclick="openActivityModal()" id="addActivityBtn" style="display:none;">
+                            + Add Activity
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="studentsSection" style="display:none;">
+                <div class="top-bar">
+                    <div class="page-title"><h1>Students</h1></div>
+                    <div class="top-actions">
+                        <button class="btn-add" onclick="openStudentModal()" id="addStudentBtn" style="display:none;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                            Add Student
+                        </button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="students-toolbar">
+                        <div class="search-box">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--text-muted);"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                            <input type="text" placeholder="Search students..." id="studentSearch" oninput="filterStudents()">
+                        </div>
+                        <span style="color:var(--text-muted); font-size:13px;" id="studentCount">0 students</span>
+                    </div>
+
+                    <table class="students-table">
+                        <thead>
+                            <tr>
+                                <th>Student</th>
+                                <th>Initials</th>
+                                <th>Status Today</th>
+                                <th style="text-align:right;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="studentsTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="attendanceSection" style="display:none;">
+                <div class="top-bar"><div class="page-title"><h1>Attendance</h1></div></div>
+                <div class="card"><p style="color:var(--text-muted);">Full attendance history coming soon.</p></div>
+            </div>
+
+            <div id="performanceSection" style="display:none;">
+                <div class="top-bar"><div class="page-title"><h1>Performance</h1></div></div>
+                <div class="card"><p style="color:var(--text-muted);">Performance analytics coming soon.</p></div>
+            </div>
+
+            <div id="reportsSection" style="display:none;">
+                <div class="top-bar"><div class="page-title"><h1>Reports</h1></div></div>
+                <div class="card"><p style="color:var(--text-muted);">Reports archive coming soon.</p></div>
+            </div>
+        </main>
+    </div>
+
+    <!-- LOGIN MODAL -->
+    <div class="modal-overlay" id="loginModal">
+        <div class="modal">
+            <img src="https://placehold.co/80x80/1a5f6e/ffffff?text=BFCL" alt="BFCL Logo" class="login-logo" id="loginLogo">
+            <h3 class="login-title">Teacher Login</h3>
+            <p class="login-subtitle">Batu Ferringhi Community Library</p>
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" id="loginEmail" placeholder="teacher@bfcl.edu">
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="loginPassword" placeholder="••••••••">
+            </div>
+            <div class="modal-actions">
+                <button class="btn-secondary" onclick="closeModal('loginModal')">Cancel</button>
+                <button class="btn-primary" onclick="doLogin()">Login</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- STUDENT MODAL -->
+    <div class="modal-overlay" id="studentModal">
+        <div class="modal">
+            <h3 id="studentModalTitle">Add Student</h3>
+            <input type="hidden" id="studentEditId">
+            <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" id="studentName" placeholder="e.g. Adam Lim" oninput="generateInitials()">
+            </div>
+            <div class="form-group">
+                <label>Initials (auto-generated)</label>
+                <input type="text" id="studentInitials" placeholder="AL" maxlength="2" style="text-transform:uppercase;">
+            </div>
+            <div class="form-group">
+                <label>Avatar Color</label>
+                <div class="color-picker" id="colorPicker">
+                    <div class="color-option selected" style="background:#a5d6a7;" data-color="#a5d6a7" onclick="selectColor(this)"></div>
+                    <div class="color-option" style="background:#4fc3f7;" data-color="#4fc3f7" onclick="selectColor(this)"></div>
+                    <div class="color-option" style="background:#ce93d8;" data-color="#ce93d8" onclick="selectColor(this)"></div>
+                    <div class="color-option" style="background:#ffcc80;" data-color="#ffcc80" onclick="selectColor(this)"></div>
+                    <div class="color-option" style="background:#ef9a9a;" data-color="#ef9a9a" onclick="selectColor(this)"></div>
+                    <div class="color-option" style="background:#80cbc4;" data-color="#80cbc4" onclick="selectColor(this)"></div>
+                    <div class="color-option" style="background:#b39ddb;" data-color="#b39ddb" onclick="selectColor(this)"></div>
+                    <div class="color-option" style="background:#bcaaa4;" data-color="#bcaaa4" onclick="selectColor(this)"></div>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="btn-secondary" onclick="closeModal('studentModal')">Cancel</button>
+                <button class="btn-primary" onclick="saveStudent()">Save Student</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- DELETE MODAL -->
+    <div class="modal-overlay" id="deleteModal">
+        <div class="modal">
+            <h3>Delete Student?</h3>
+            <p style="color:var(--text-muted); font-size:14px; margin-bottom:20px;">This will permanently remove <strong id="deleteStudentName">this student</strong> and all their attendance records.</p>
+            <input type="hidden" id="deleteStudentId">
+            <div class="modal-actions">
+                <button class="btn-secondary" onclick="closeModal('deleteModal')">Cancel</button>
+                <button class="btn-danger" onclick="confirmDelete()">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ACTIVITY MODAL -->
+    <div class="modal-overlay" id="activityModal">
+        <div class="modal">
+            <h3>Add Activity</h3>
+            <div class="form-group">
+                <label>Time</label>
+                <input type="time" id="activityTime" value="09:00">
+            </div>
+            <div class="form-group">
+                <label>Activity Name</label>
+                <input type="text" id="activityName" placeholder="e.g. Reading Circle">
+            </div>
+            <div class="form-group">
+                <label>Details</label>
+                <input type="text" id="activityDetails" placeholder="e.g. Primary 3-4 · Room A">
+            </div>
+            <div class="modal-actions">
+                <button class="btn-secondary" onclick="closeModal('activityModal')">Cancel</button>
+                <button class="btn-primary" onclick="saveActivity()">Save Activity</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // ===================== CONFIG =====================
+        // REPLACE THESE WITH YOUR SUPABASE CREDENTIALS
+        const SUPABASE_URL = 'https://wvybfhacwiclahicvsle.supabase.co/rest/v1/';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind2eWJmaGFjd2ljbGFoaWN2c2xlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI5MDUwNjksImV4cCI6MjA5ODQ4MTA2OX0.46ibJ9IH8KAgQwc2PM2n49zSGYd7kWUN78ez6g0_a-o';
+
+        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // ===================== STATE =====================
+        let isLoggedIn = false;
+        let currentUser = null;
+        let students = [];
+        let activities = [];
+        let selectedColor = '#a5d6a7';
+        let todayStr = new Date().toISOString().split('T')[0];
+
+        // ===================== HELPERS =====================
+        function setLoading(show) {
+            document.getElementById('loadingOverlay').classList.toggle('active', show);
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        function openModal(id) { document.getElementById(id).classList.add('active'); }
+        function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+
+        document.querySelectorAll('.modal-overlay').forEach(overlay => {
+            overlay.addEventListener('click', (e) => {
+                if (e.target === overlay) overlay.classList.remove('active');
+            });
+        });
+
+        // ===================== DATA LOADING =====================
+        async function loadStudents() {
+            setLoading(true);
+            const { data, error } = await supabase.from('students').select('*').order('name');
+            if (error) { showToast('Error loading students: ' + error.message); setLoading(false); return; }
+            students = data || [];
+
+            // Load today's attendance for each student
+            const { data: attData, error: attError } = await supabase
+                .from('attendance')
+                .select('*')
+                .eq('date', todayStr);
+
+            if (!attError && attData) {
+                students.forEach(s => {
+                    const rec = attData.find(a => a.student_id === s.id);
+                    s.status = rec ? rec.status : 'Present';
+                    s.attendance_id = rec ? rec.id : null;
+                });
+            } else {
+                students.forEach(s => s.status = 'Present');
+            }
+
+            document.getElementById('totalStudents').textContent = students.length;
+            renderStudents();
+            renderStudentsTable();
+            updateAttendanceSummary();
+            setLoading(false);
+        }
+
+        async function loadActivities() {
+            const { data, error } = await supabase
+                .from('activities')
+                .select('*')
+                .eq('date', todayStr)
+                .order('time');
+            if (error) { showToast('Error loading activities: ' + error.message); return; }
+            activities = data || [];
+            renderActivities();
+        }
+
+        async function checkSession() {
+            const { data: { session } } = await supabase.auth.getSession();
+            if (session) {
+                isLoggedIn = true;
+                currentUser = session.user;
+                document.getElementById('teacherInfo').style.display = 'flex';
+                document.getElementById('teacherName').textContent = currentUser.email.split('@')[0];
+                document.getElementById('teacherAvatar').textContent = currentUser.email[0].toUpperCase();
+                document.getElementById('loginText').textContent = 'Logout';
+                document.getElementById('welcomeName').textContent = currentUser.email.split('@')[0];
+                document.getElementById('addActivityBtn').style.display = 'block';
+                document.getElementById('addStudentBtn').style.display = 'flex';
+            }
+        }
+
+        // ===================== RENDER =====================
+        function renderStudents() {
+            const list = document.getElementById('studentList');
+            if (students.length === 0) {
+                list.innerHTML = '<p style="color:var(--text-muted); padding:20px; text-align:center;">No students yet. Add some from the Students page.</p>';
+                return;
+            }
+            list.innerHTML = students.map(s => `
+                <div class="student-row">
+                    <div class="student-info">
+                        <div class="student-avatar" style="background:${s.color};">${s.initials}</div>
+                        <span class="student-name">${s.name}</span>
+                    </div>
+                    <button class="status-badge status-${(s.status || 'present').toLowerCase()}" 
+                            onclick="cycleStatus('${s.id}')" 
+                            style="${!isLoggedIn ? 'cursor:default;' : ''}">
+                        ● ${s.status || 'Present'}
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function renderStudentsTable(filter = '') {
+            const tbody = document.getElementById('studentsTableBody');
+            const filtered = students.filter(s =>
+                s.name.toLowerCase().includes(filter.toLowerCase()) ||
+                s.initials.toLowerCase().includes(filter.toLowerCase())
+            );
+
+            document.getElementById('studentCount').textContent = `${filtered.length} student${filtered.length !== 1 ? 's' : ''}`;
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="4"><div class="empty-state"><p>No students found</p></div></td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = filtered.map(s => {
+                const status = s.status || 'Present';
+                return `
+                    <tr>
+                        <td>
+                            <div class="student-cell">
+                                <div class="student-avatar" style="background:${s.color};">${s.initials}</div>
+                                <span style="font-weight:600;">${s.name}</span>
+                            </div>
+                        </td>
+                        <td><span style="font-family:monospace; font-size:13px; color:var(--text-muted);">${s.initials}</span></td>
+                        <td>
+                            <span class="status-badge status-${status.toLowerCase()}" onclick="cycleStatus('${s.id}')" style="${!isLoggedIn ? 'cursor:default;' : ''}">
+                                ● ${status}
+                            </span>
+                        </td>
+                        <td style="text-align:right;">
+                            <div class="action-btns" style="${!isLoggedIn ? 'display:none;' : ''}">
+                                <button class="btn-action btn-edit" onclick="editStudent('${s.id}')" title="Edit">✎</button>
+                                <button class="btn-action btn-delete" onclick="promptDelete('${s.id}')" title="Delete">×</button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function renderActivities() {
+            const list = document.getElementById('activityList');
+            if (activities.length === 0) {
+                list.innerHTML = '<p style="color:var(--text-muted); text-align:center; padding:20px;">No activities scheduled today.</p>';
+                return;
+            }
+            list.innerHTML = activities.map((a, i) => `
+                <div class="activity-item">
+                    <div class="activity-time">${a.time}</div>
+                    <div class="activity-details">
+                        <h4>${a.name}</h4>
+                        <p>${a.details}</p>
+                    </div>
+                    ${isLoggedIn ? `<button class="btn-icon" style="width:28px;height:28px;" onclick="deleteActivity('${a.id}')" title="Delete">×</button>` : ''}
+                </div>
+            `).join('');
+        }
+
+        function updateAttendanceSummary() {
+            const present = students.filter(s => s.status === 'Present').length;
+            const late = students.filter(s => s.status === 'Late').length;
+            const absent = students.filter(s => s.status === 'Absent').length;
+            const total = students.length;
+            const rate = total > 0 ? Math.round((present / total) * 100) : 0;
+
+            document.getElementById('attendanceRate').textContent = rate + '%';
+            document.getElementById('totalStudents').textContent = total;
+
+            document.getElementById('attendanceSummary').innerHTML = `
+                <span class="attendance-badge badge-present">● ${present} Present</span>
+                <span class="attendance-badge badge-late">● ${late} Late</span>
+                <span class="attendance-badge badge-absent">● ${absent} Absent</span>
+            `;
+        }
+
+        // ===================== ATTENDANCE =====================
+        async function cycleStatus(studentId) {
+            if (!isLoggedIn) { showToast('Please login to edit attendance'); return; }
+
+            const student = students.find(s => s.id === studentId);
+            const statuses = ['Present', 'Late', 'Absent'];
+            const currentIndex = statuses.indexOf(student.status);
+            const newStatus = statuses[(currentIndex + 1) % statuses.length];
+
+            setLoading(true);
+            if (student.attendance_id) {
+                const { error } = await supabase
+                    .from('attendance')
+                    .update({ status: newStatus })
+                    .eq('id', student.attendance_id);
+                if (error) { showToast('Error: ' + error.message); setLoading(false); return; }
+            } else {
+                const { data, error } = await supabase
+                    .from('attendance')
+                    .insert({ student_id: studentId, date: todayStr, status: newStatus })
+                    .select();
+                if (error) { showToast('Error: ' + error.message); setLoading(false); return; }
+                student.attendance_id = data[0].id;
+            }
+
+            student.status = newStatus;
+            renderStudents();
+            renderStudentsTable(document.getElementById('studentSearch').value);
+            updateAttendanceSummary();
+            showToast(`${student.name} marked as ${newStatus}`);
+            setLoading(false);
+        }
+
+        // ===================== STUDENT CRUD =====================
+        function openStudentModal() {
+            if (!isLoggedIn) { showToast('Please login to manage students'); return; }
+            document.getElementById('studentModalTitle').textContent = 'Add Student';
+            document.getElementById('studentEditId').value = '';
+            document.getElementById('studentName').value = '';
+            document.getElementById('studentInitials').value = '';
+            selectedColor = '#a5d6a7';
+            document.querySelectorAll('.color-option').forEach(el => el.classList.toggle('selected', el.dataset.color === '#a5d6a7'));
+            openModal('studentModal');
+        }
+
+        function editStudent(id) {
+            if (!isLoggedIn) return;
+            const student = students.find(s => s.id === id);
+            if (!student) return;
+
+            document.getElementById('studentModalTitle').textContent = 'Edit Student';
+            document.getElementById('studentEditId').value = id;
+            document.getElementById('studentName').value = student.name;
+            document.getElementById('studentInitials').value = student.initials;
+            selectedColor = student.color;
+            document.querySelectorAll('.color-option').forEach(el =>
+                el.classList.toggle('selected', el.dataset.color === student.color)
+            );
+            openModal('studentModal');
+        }
+
+        function generateInitials() {
+            const name = document.getElementById('studentName').value.trim();
+            if (!name) return;
+            const parts = name.split(' ').filter(p => p.length > 0);
+            let initials = '';
+            if (parts.length === 1) {
+                initials = parts[0].substring(0, 2).toUpperCase();
+            } else {
+                initials = (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+            }
+            document.getElementById('studentInitials').value = initials;
+        }
+
+        function selectColor(el) {
+            document.querySelectorAll('.color-option').forEach(c => c.classList.remove('selected'));
+            el.classList.add('selected');
+            selectedColor = el.dataset.color;
+        }
+
+        async function saveStudent() {
+            const name = document.getElementById('studentName').value.trim();
+            const initials = document.getElementById('studentInitials').value.trim().toUpperCase();
+            const editId = document.getElementById('studentEditId').value;
+
+            if (!name || !initials) { showToast('Please fill in all fields'); return; }
+
+            setLoading(true);
+            if (editId) {
+                const { error } = await supabase
+                    .from('students')
+                    .update({ name, initials, color: selectedColor })
+                    .eq('id', editId);
+                if (error) { showToast('Error: ' + error.message); setLoading(false); return; }
+                showToast(`Updated ${name}`);
+            } else {
+                const { data, error } = await supabase
+                    .from('students')
+                    .insert({ name, initials, color: selectedColor })
+                    .select();
+                if (error) { showToast('Error: ' + error.message); setLoading(false); return; }
+
+                // Create today's attendance record
+                await supabase.from('attendance').insert({
+                    student_id: data[0].id,
+                    date: todayStr,
+                    status: 'Present'
+                });
+                showToast(`Added ${name}`);
+            }
+
+            closeModal('studentModal');
+            await loadStudents();
+            setLoading(false);
+        }
+
+        function promptDelete(id) {
+            if (!isLoggedIn) return;
+            const student = students.find(s => s.id === id);
+            if (!student) return;
+            document.getElementById('deleteStudentName').textContent = student.name;
+            document.getElementById('deleteStudentId').value = id;
+            openModal('deleteModal');
+        }
+
+        async function confirmDelete() {
+            const id = document.getElementById('deleteStudentId').value;
+            setLoading(true);
+
+            await supabase.from('attendance').delete().eq('student_id', id);
+            const { error } = await supabase.from('students').delete().eq('id', id);
+
+            if (error) { showToast('Error: ' + error.message); setLoading(false); return; }
+
+            showToast('Student deleted');
+            closeModal('deleteModal');
+            await loadStudents();
+            setLoading(false);
+        }
+
+        function filterStudents() {
+            renderStudentsTable(document.getElementById('studentSearch').value);
+        }
+
+        // ===================== ACTIVITIES =====================
+        function openActivityModal() {
+            if (!isLoggedIn) { showToast('Please login to add activities'); return; }
+            openModal('activityModal');
+        }
+
+        async function saveActivity() {
+            const time = document.getElementById('activityTime').value;
+            const name = document.getElementById('activityName').value.trim();
+            const details = document.getElementById('activityDetails').value.trim();
+
+            if (!name) { showToast('Please enter an activity name'); return; }
+
+            setLoading(true);
+            const { error } = await supabase.from('activities').insert({
+                time, name, details, date: todayStr
+            });
+
+            if (error) { showToast('Error: ' + error.message); setLoading(false); return; }
+
+            showToast('Activity added');
+            closeModal('activityModal');
+            document.getElementById('activityName').value = '';
+            document.getElementById('activityDetails').value = '';
+            await loadActivities();
+            setLoading(false);
+        }
+
+        async function deleteActivity(id) {
+            if (!confirm('Delete this activity?')) return;
+            setLoading(true);
+            const { error } = await supabase.from('activities').delete().eq('id', id);
+            if (error) { showToast('Error: ' + error.message); setLoading(false); return; }
+            showToast('Activity deleted');
+            await loadActivities();
+            setLoading(false);
+        }
+
+        // ===================== NAVIGATION =====================
+        function showSection(section) {
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+
+            ['dashboard', 'students', 'attendance', 'performance', 'reports'].forEach(s => {
+                document.getElementById(s + 'Section').style.display = s === section ? 'block' : 'none';
+            });
+
+            if (section === 'students') renderStudentsTable();
+        }
+
+        // ===================== LOGIN =====================
+        function toggleLogin() {
+            if (isLoggedIn) { doLogout(); }
+            else { openModal('loginModal'); }
+        }
+
+        async function doLogin() {
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value;
+
+            if (!email || !password) { showToast('Enter email and password'); return; }
+
+            setLoading(true);
+            const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+            setLoading(false);
+
+            if (error) { showToast(error.message); return; }
+
+            isLoggedIn = true;
+            currentUser = data.user;
+            document.getElementById('teacherInfo').style.display = 'flex';
+            document.getElementById('teacherName').textContent = email.split('@')[0];
+            document.getElementById('teacherAvatar').textContent = email[0].toUpperCase();
+            document.getElementById('loginText').textContent = 'Logout';
+            document.getElementById('welcomeName').textContent = email.split('@')[0];
+            document.getElementById('addActivityBtn').style.display = 'block';
+            document.getElementById('addStudentBtn').style.display = 'flex';
+            closeModal('loginModal');
+            showToast('Welcome back!');
+            await loadStudents();
+            await loadActivities();
+        }
+
+        async function doLogout() {
+            await supabase.auth.signOut();
+            isLoggedIn = false;
+            currentUser = null;
+            document.getElementById('teacherInfo').style.display = 'none';
+            document.getElementById('loginText').textContent = 'Teacher Login';
+            document.getElementById('welcomeName').textContent = 'Teacher';
+            document.getElementById('addActivityBtn').style.display = 'none';
+            document.getElementById('addStudentBtn').style.display = 'none';
+            showToast('Logged out');
+            await loadStudents();
+            await loadActivities();
+        }
+
+        async function refreshData() {
+            showToast('Refreshing...');
+            await loadStudents();
+            await loadActivities();
+        }
+
+        async function publishAll() {
+            showToast('All changes saved to database!');
+        }
+
+        // ===================== INIT =====================
+        document.getElementById('attendanceDate').textContent = new Date().toLocaleDateString('en-GB', {
+            day: 'numeric', month: 'long', year: 'numeric'
+        });
+
+        async function init() {
+            await checkSession();
+            await loadStudents();
+            await loadActivities();
+        }
+
+        init();
+    </script>
+</body>
+                                                                                                                                     </html>
